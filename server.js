@@ -22,5 +22,8 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello World Buddy</h1>')
 })
 
+// Users Routes
+app.use('/api/users', require('./routes/api/users'))
+
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server runnig on PORT ${PORT}`))
