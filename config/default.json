@@ -1,0 +1,3 @@
+{
+    "mongoURI":"mongodb+srv://acarpan:acarpan@cluster0-8adpk.mongodb.net/shutter-up?retryWrites=true&w=majority"
+}
