@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../../models/User')
 
 
-// @route  POST api/users
+// @route  POST /api/users
 // @desc   Register New User
 // @access Public
 router.post('/', (req, res) => {
@@ -36,9 +36,12 @@ router.post('/', (req, res) => {
                         })
         
                         user.save()
-                            .then(user => res.json(user))
+                            .then(user => res.json({
+                                user: { id: user._id, name: user.name, email: user.email }
+                            }))
                             .catch(err => console.log(err))
                     })
+                    .catch(err => console.log(err))
             }
         })
         .catch(err => console.log(err))
