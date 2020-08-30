@@ -1,9 +1,14 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const config = require('config')
 
 // User Model
 const User = require('../../models/User')
+
+// Our jwtSecret
+const JWT_SECRET = config.get('jwtSecret')
 
 // @route  POST /api/auth
 // @desc   Authenticate the User
@@ -26,7 +31,9 @@ router.post('/', (req, res) => {
                 bcrypt.compare(password, user.password)
                     .then(matched => {
                         if(matched) {
+                            const token = jwt.sign({ _id: user.id}, JWT_SECRET)
                             res.json({
+                                token: token,
                                 user: { id: user._id, name: user.name, email: user.email }
                             })
                         }
