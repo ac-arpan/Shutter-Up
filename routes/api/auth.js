@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const auth = require('../../middleware/auth')
 
 // User Model
 const User = require('../../models/User')
@@ -27,7 +28,7 @@ router.post('/', (req, res) => {
                 return res.status(422).json({ error: "Invalid user credential"})
             }
             else {
-                // compare the password and get him/her
+                // compare the password and signin him/her
                 bcrypt.compare(password, user.password)
                     .then(matched => {
                         if(matched) {
@@ -45,6 +46,12 @@ router.post('/', (req, res) => {
             }
         })
         .catch(err => console.log(err))
+})
+
+// testing a protected route
+router.get('/protected', auth,  (req, res) => {
+    res.json({
+        msg: `Welcome ${req.user.name}` })
 })
 
 module.exports = router
