@@ -9,7 +9,7 @@ const User = require('../../models/User')
 
 
 // @route  GET /api/posts
-// @desc   Create New Post
+// @desc   Get all the Posts
 // @access Private
 router.get('/', (req, res) => {
     Post.find({})
