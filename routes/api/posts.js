@@ -11,12 +11,25 @@ const User = require('../../models/User')
 // @route  GET /api/posts
 // @desc   Get all the Posts
 // @access Private
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     Post.find({})
         .populate('postedBy','_id name')
         .then(posts => res.json({ posts }))
         .catch(err => console.log(err))
 })
+
+
+// @route  GET /api/posts/profile
+// @desc   Profile Page of User
+// @access Private
+router.get('/profile', auth, (req, res) => {
+    Post.find({ postedBy: req.user._id })
+        .select('-postedBy')
+        .then(posts => res.json({ userId: req.user._id, user:req.user.name, posts }))
+        .catch(err => console.log(err))
+})
+
+
 
 // @route  POST /api/posts/create
 // @desc   Create New Post
