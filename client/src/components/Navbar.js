@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Login from './Login'
+import Signup from './Signup'
 
 function Navbar() {
     return (
@@ -14,8 +16,8 @@ function Navbar() {
                     <ul className="right hide-on-med-and-down">
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/profile">Profile</Link></li>
-                        <li><Link to="/signup">SignUp</Link></li>
-                        <li><Link to="/login">Login</Link></li>
+                        <li><a href="#" className="modal-trigger" data-target="modal-signup">Signup</a></li>                        
+                        <li><a href="#" className="modal-trigger" data-target="modal-login">Login</a></li>
                     </ul>
                 </div>
             </nav>
@@ -23,9 +25,12 @@ function Navbar() {
             <ul className="sidenav" id="mobile-links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/signup">SignUp</Link></li>
-                <li><Link to="/login">Login</Link></li>
+                <li><a href="#" className="modal-trigger" data-target="modal-signup">Signup</a></li>
+                <li><a href="#" className="modal-trigger" data-target="modal-login">Login</a></li>
             </ul>
+
+            <Login/>
+            <Signup/>
         </>
     )
 }
