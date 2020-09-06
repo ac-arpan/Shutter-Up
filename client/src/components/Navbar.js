@@ -22,6 +22,7 @@ function Navbar() {
                     <ul className="right hide-on-med-and-down">
                         <li><Link to="/" className="pink-text">Home</Link></li>
                         <li><Link to="/profile" className="pink-text">Profile</Link></li>
+                        <li><Link to="/create" className="pink-text">Create Post</Link></li>
                         <li><a href="#" className="modal-trigger pink-text" data-target="modal-signup">Signup</a></li>                        
                         <li><a href="#" className="modal-trigger pink-text" data-target="modal-login">Login</a></li>
                     </ul>
@@ -31,6 +32,7 @@ function Navbar() {
             <ul className="sidenav" id="mobile-links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
+                <li><Link to="/create" className="pink-text">Create Post</Link></li>
                 <li><a href="#" className="modal-trigger" data-target="modal-signup">Signup</a></li>
                 <li><a href="#" className="modal-trigger" data-target="modal-login">Login</a></li>
             </ul>
