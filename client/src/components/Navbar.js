@@ -12,18 +12,18 @@ function Navbar() {
     }, [])
     return (
         <>
-            <nav className="nav-wrapper pink darken-1">
+            <nav className="nav-wrapper white z-depth-1">
                 <div className="container">
-                    <Link to="/" className="brand-logo">Shutter-UP</Link>
-                    <a href="#" className="sidenav-trigger" data-target="mobile-links">
+                    <Link to="/" className="pink-text brand-logo">Shutter-UP</Link>
+                    <a href="#" className="pink-text sidenav-trigger" data-target="mobile-links">
                         <i className="material-icons">menu</i>
                     </a>
 
                     <ul className="right hide-on-med-and-down">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/profile">Profile</Link></li>
-                        <li><a href="#" className="modal-trigger" data-target="modal-signup">Signup</a></li>                        
-                        <li><a href="#" className="modal-trigger" data-target="modal-login">Login</a></li>
+                        <li><Link to="/" className="pink-text">Home</Link></li>
+                        <li><Link to="/profile" className="pink-text">Profile</Link></li>
+                        <li><a href="#" className="modal-trigger pink-text" data-target="modal-signup">Signup</a></li>                        
+                        <li><a href="#" className="modal-trigger pink-text" data-target="modal-login">Login</a></li>
                     </ul>
                 </div>
             </nav>
