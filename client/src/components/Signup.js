@@ -1,7 +1,15 @@
 import React from 'react'
+import M from "materialize-css";
 
 function Signup() {
 
+    const openSignIn =  () => {
+        let signUpModal = document.querySelector('#modal-signup')
+        let signInModal = document.querySelector('#modal-login')
+
+        M.Modal.getInstance(signUpModal).close()
+        M.Modal.getInstance(signInModal).open()
+    }
     return (
         <>
             {/* SIGN UP MODAL */}
@@ -25,7 +33,7 @@ function Signup() {
                             <span>Signup</span>
                             <i className="material-icons right">assignment_ind</i>
                         </button>
-                        <div id="login" href="#" className="center pink-text">
+                        <div id="login" href="#" className="center pink-text" onClick={openSignIn}>
                             Already have an account ? Login
                         </div>
                         <p className="error pink-text center-align"></p>

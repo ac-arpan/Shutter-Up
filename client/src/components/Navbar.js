@@ -1,9 +1,15 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Login from './Login'
 import Signup from './Signup'
+import M from "materialize-css";
 
 function Navbar() {
+
+    useEffect( () => {
+         // Auto initialize all the things!
+         M.AutoInit();
+    }, [])
     return (
         <>
             <nav className="nav-wrapper pink darken-1">

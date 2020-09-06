@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import 'materialize-css/dist/css/materialize.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Navbar from './components/Navbar';
