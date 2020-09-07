@@ -12,10 +12,10 @@ const User = require('../../models/User')
 // @access Public
 router.post('/', (req, res) => {
 
-    const { name, email, password } = req.body
+    const { name, username, email, password } = req.body
 
     // Validation
-    if(!email || !name || !password) {
+    if(!email || !username || !name || !password) {
         return res.status(422).json({ error: "Please enetr all the field!"})
     }
 
@@ -32,12 +32,13 @@ router.post('/', (req, res) => {
                         const user = new User({
                             name,
                             email,
+                            username,
                             password: hashedPassword
                         })
         
                         user.save()
                             .then(user => res.json({
-                                user: { id: user._id, name: user.name, email: user.email }
+                                user: { id: user._id, name: user.name, username: user.username, email: user.email }
                             }))
                             .catch(err => console.log(err))
                     })
