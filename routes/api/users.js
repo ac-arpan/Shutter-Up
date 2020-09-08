@@ -16,14 +16,14 @@ router.post('/', (req, res) => {
 
     // Validation
     if(!email || !username || !name || !password) {
-        return res.status(422).json({ error: "Please enetr all the field!"})
+        return res.status(400).json({ msg: "Please enter all the field!"})
     }
 
     // Find if user exist with this email
     User.findOne({ email: email })
         .then(user => {
             if(user) {
-                return res.status(422).json({ error: "User already exist with this email!"})
+                return res.status(400).json({ msg: "User already exist with this email!"})
             }
             else {
                 // Hash the password and save the user

@@ -70,3 +70,8 @@
 .input-field .prefix.active {
 color: rgb(255, 27, 65) !important;
 }
+
+#toast-container {
+  top: 30px !important;
+  right: 20px !important;
+}

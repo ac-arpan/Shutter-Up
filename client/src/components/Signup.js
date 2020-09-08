@@ -41,11 +41,17 @@ function Signup() {
                 setUsername('')
                 setEmail('')
                 setPassword('')
+
                 let signUpModal = document.querySelector('#modal-signup')
                 M.Modal.getInstance(signUpModal).close()
                 resetForm()
+                M.toast({ html: 'SignUp Successful!', classes: '#e91e63 pink' })
+                openSignIn()
+
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                M.toast({html: err.response.data.msg, classes: 'e91e63 pink' })
+            })
 
     }
     return (
@@ -57,22 +63,22 @@ function Signup() {
                     <br />
                     <form id="signup-form" onSubmit={handleSubmit}>
                         <div className="input-field">
-                            <i class="material-icons prefix">account_circle</i>
+                            <i className="material-icons prefix">account_circle</i>
                             <input type="text" id="signup-name" required value={name} onChange={e => setName(e.target.value)} />
                             <label htmlFor="signup-bio">Name</label>
                         </div>
                         <div className="input-field">
-                            <i class="material-icons prefix">face</i>
+                            <i className="material-icons prefix">face</i>
                             <input type="text" id="signup-username" required value={username} onChange={e => setUsername(e.target.value)} />
                             <label htmlFor="signup-bio">Username</label>
                         </div>
                         <div className="input-field">
-                            <i class="material-icons prefix">email</i>
+                            <i className="material-icons prefix">email</i>
                             <input type="email" id="signup-email" required value={email} onChange={e => setEmail(e.target.value)} />
                             <label htmlFor="signup-email">Email address</label>
                         </div>
                         <div className="input-field">
-                            <i class="material-icons prefix">login</i>
+                            <i className="material-icons prefix">vpn_key</i>
                             <input type="password" id="signup-password" required value={password} onChange={e => setPassword(e.target.value)} />
                             <label htmlFor="signup-password">Choose password</label>
                         </div>

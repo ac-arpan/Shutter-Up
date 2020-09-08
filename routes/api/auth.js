@@ -19,13 +19,13 @@ router.post('/', (req, res) => {
 
     // Validation
     if(!email || !password) {
-        return res.status(422).json({ error: "Please enetr all the field!"})
+        return res.status(400).json({ msg: "Please enetr all the field!"})
     }
     // Find if user exist with this email
     User.findOne({ email: email })
         .then(user => {
             if(!user) {
-                return res.status(422).json({ error: "Invalid user credential"})
+                return res.status(400).json({ msg: "Invalid user credential"})
             }
             else {
                 // compare the password and signin him/her
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
                             })
                         }
                         else {
-                            return res.status(422).json({ error: "Invalid user credential"})
+                            return res.status(400).json({ msg: "Invalid user credential"})
                         }
                     })
                     .catch(err => console.log(err))

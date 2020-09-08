@@ -37,7 +37,7 @@ router.get('/profile', auth, (req, res) => {
 router.post('/create', auth, (req, res) => {
     const { title, body } = req.body
     if(!title || !body) {
-        return res.status(422).json({ err: "Please fill all the fields" })
+        return res.status(400).json({ msg: "Please fill all the fields" })
     }
     const post = new Post({
         title,

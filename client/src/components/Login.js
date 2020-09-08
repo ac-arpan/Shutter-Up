@@ -16,13 +16,16 @@ function Login() {
             <div id="modal-login" className="modal">
                 <div className="modal-content">
                     <h3 className="pink-text text-darken-1">Login</h3>
+                    <br/>
                     
                     <form id="login-form">
                         <div className="input-field">
+                            <i className="material-icons prefix">email</i>
                             <input type="email" id="login-email" required />
                             <label htmlFor="login-email">Email address</label>
                         </div>
                         <div className="input-field">
+                            <i className="material-icons prefix">vpn_key</i>
                             <input type="password" id="login-password" required />
                             <label htmlFor="login-password">Your password</label>
                         </div>
