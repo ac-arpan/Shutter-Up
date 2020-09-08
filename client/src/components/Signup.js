@@ -36,7 +36,7 @@ function Signup() {
 
         axios.post('/api/users', body, config)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setName('')
                 setUsername('')
                 setEmail('')

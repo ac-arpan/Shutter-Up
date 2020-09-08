@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
 
     // Validation
     if(!email || !password) {
-        return res.status(400).json({ msg: "Please enetr all the field!"})
+        return res.status(400).json({ msg: "Please enter all the field!"})
     }
     // Find if user exist with this email
     User.findOne({ email: email })
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
                             const token = jwt.sign({ _id: user.id}, JWT_SECRET)
                             res.json({
                                 token: token,
-                                user: { id: user._id, name: user.name, email: user.email }
+                                user: { id: user._id, name: user.name, username: user.username, email: user.email }
                             })
                         }
                         else {
