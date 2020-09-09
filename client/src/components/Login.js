@@ -1,5 +1,6 @@
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import logo from './shutterUp.svg'
 import axios from 'axios'
 import M from "materialize-css";
 
@@ -12,7 +13,7 @@ function Login() {
     const openSignUp = () => {
         let signUpModal = document.querySelector('#modal-signup')
         let signInModal = document.querySelector('#modal-login')
-        
+
         M.Modal.getInstance(signInModal).close()
         M.Modal.getInstance(signUpModal).open()
     }
@@ -48,7 +49,7 @@ function Login() {
 
             })
             .catch(err => {
-                M.toast({html: err.response.data.msg, classes: 'e91e63 pink' })
+                M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
             })
 
     }
@@ -57,13 +58,16 @@ function Login() {
             {/* LOGIN MODAL */}
             <div id="modal-login" className="modal">
                 <div className="modal-content">
-                    <h3 className="pink-text text-darken-1">Login</h3>
-                    <br/>
-                    
+                    <div className="center" >
+                        <img src={logo} className="auth-logo" />
+                    </div>
+                    <h4 className="pink-text text-darken-1">Login</h4>
+                    <br />
+
                     <form id="login-form" onSubmit={handleSubmit}>
                         <div className="input-field">
                             <i className="material-icons prefix">email</i>
-                            <input type="email" id="login-email" required value={email} onChange={e => setEmail(e.target.value)}/>
+                            <input type="email" id="login-email" required value={email} onChange={e => setEmail(e.target.value)} />
                             <label htmlFor="login-email">Email address</label>
                         </div>
                         <div className="input-field">

@@ -75,3 +75,15 @@ color: rgb(255, 27, 65) !important;
   top: 30px !important;
   right: 20px !important;
 }
+
+/*Nav*/
+.nav-logo {
+  height: 60px;
+  width: 110px;
+    
+}
+.auth-logo {
+  height: 65px;
+  width: 110px;
+  text-align: center;
+}

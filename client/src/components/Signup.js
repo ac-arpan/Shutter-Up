@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import logo from './shutterUp.svg'
 import M from "materialize-css";
 
 function Signup() {
@@ -50,7 +51,7 @@ function Signup() {
 
             })
             .catch(err => {
-                M.toast({html: err.response.data.msg, classes: 'e91e63 pink' })
+                M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
             })
 
     }
@@ -59,7 +60,10 @@ function Signup() {
             {/* SIGN UP MODAL */}
             <div id="modal-signup" className="modal">
                 <div className="modal-content">
-                    <h3 className="pink-text text-darken-1">Sign up</h3>
+                    <div className="center" >
+                        <img src={logo} className="auth-logo" />
+                    </div>
+                    <h4 className="pink-text text-darken-1" >Sign up</h4>
                     <br />
                     <form id="signup-form" onSubmit={handleSubmit}>
                         <div className="input-field">
