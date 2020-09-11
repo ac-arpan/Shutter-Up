@@ -50,12 +50,26 @@
   }
 }
 /* Home */
-.home-card {
-  max-width: 500px;
-  height: max-content;
-  margin: 20px auto !important;
+.home {
+  margin-top: 0 !important;
 }
-
+.home .row .card, .home .row .collection{
+  margin-top: 0 !important;
+  border:none !important;
+}
+.home .row .collection {
+  margin-bottom: 0 !important;
+}
+.home .row .col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.home .photo-reach .material-icons {
+  margin-right: 5px !important;
+}
+.home .comment {
+  margin-bottom: 5px !important;
+}
 /* Signup Modal */
 /* label focus color */
 .input-field input:focus + label {
@@ -71,9 +85,10 @@
 color: rgb(255, 27, 65) !important;
 }
 
-#toast-container {
-  top: 30px !important;
-  right: 20px !important;
+.auth-logo {
+  height: 65px;
+  width: 110px;
+  text-align: center;
 }
 
 /*Nav*/
@@ -82,8 +97,8 @@ color: rgb(255, 27, 65) !important;
   width: 110px;
     
 }
-.auth-logo {
-  height: 65px;
-  width: 110px;
-  text-align: center;
+
+#toast-container {
+  top: 30px !important;
+  right: 20px !important;
 }

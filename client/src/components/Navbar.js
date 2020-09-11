@@ -13,7 +13,7 @@ function Navbar() {
     }, [])
     return (
         <>
-            <nav className="nav-wrapper white z-depth-1">
+            <nav className="nav-wrapper white z-depth-0">
                 <div className="container">
                     <Link to="/" className="pink-text brand-logo"><i className="material-icons"><img src={logo} className="nav-logo" /></i></Link>
                     <a href="#" className="pink-text sidenav-trigger" data-target="mobile-links">
@@ -43,7 +43,7 @@ function Navbar() {
             <Signup />
             {/* create post button */}
             <div className="fixed-action-btn">
-                <Link to="/create" className="btn-floating btn-large red">
+                <Link to="/create" className="btn-floating btn-large pink darken-1">
                     <i className = "material-icons">add</i>
                 </Link>
             </div>
