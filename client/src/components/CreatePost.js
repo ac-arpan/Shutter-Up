@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import M from 'materialize-css'
@@ -11,22 +11,31 @@ function CreatePost() {
     const [image, setImage] = useState({})
     const [url, setUrl] = useState('')
 
+    useEffect( () => {
+        if(url) {
+            console.log(url)
+            createPost()
+        }
+    }, [url])
+
     const createPost = () => {
         // Post to the express server the actual post
         // Headers
         const config = {
             headers: {
-                'Content-Type': 'application/json'
-                // 'Authorization': localStorage.getItem('token')
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }
         // Request Body
         const postBody = JSON.stringify({ title, body, photo: url  })
+        console.log(postBody)
 
         axios.post('/api/posts/create', postBody, config)
             .then(res => {
                 console.log(res.data)
                 M.toast({ html: 'post created successfully', classes: 'e91e63 pink' })
+                history.push('/profile')
 
             })
             .catch(err => {
@@ -49,8 +58,7 @@ function CreatePost() {
         axios.post('https://api.cloudinary.com/v1_1/shutter-up/image/upload', data)
             .then(res => {
                 console.log(res.data)
-                setUrl(res.data.secure_url)
-                createPost()
+                setUrl(res.data["secure_url"])
             })
             .catch(err => console.log(err))
 

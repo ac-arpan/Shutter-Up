@@ -38,6 +38,7 @@ function Login() {
         axios.post('/api/auth', body, config)
             .then(res => {
                 console.log(res.data)
+                localStorage.setItem('token', res.data.token)
                 setEmail('')
                 setPassword('')
 
