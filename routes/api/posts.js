@@ -36,12 +36,13 @@ router.get('/profile', auth, (req, res) => {
 // @access Private
 router.post('/create', auth, (req, res) => {
     const { title, body } = req.body
-    if(!title || !body) {
+    if(!title || !body || !photo) {
         return res.status(400).json({ msg: "Please fill all the fields" })
     }
     const post = new Post({
         title,
         body,
+        photo,
         postedBy: req.user._id
     })
     post.save()

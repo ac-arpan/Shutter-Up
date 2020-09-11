@@ -11,13 +11,13 @@ function auth(req, res, next) {
   const { authorization } = req.headers
 
   // Check for token
-  if (!authorization) return res.status(401).json({ error: "No Token, authorization denied" })
+  if (!authorization) return res.status(401).json({ msg: "No Token, authorization denied" })
 
 
   const token = authorization.replace("Bearer ", "")
   jwt.verify(token, config.get('jwtSecret'), (err, payload) => {
       if(err) {
-        return res.status(401).json({ error: "No Token, authorization denied" })
+        return res.status(401).json({ msg: "No Token, authorization denied" })
       }
       const { _id } = payload
 
