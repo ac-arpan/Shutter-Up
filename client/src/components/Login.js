@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { userContext } from '../context/GlobalState'
 import logo from './shutterUp.svg'
 import axios from 'axios'
 import M from "materialize-css";
 
 function Login() {
 
-    const history = useHistory()
+    const { dispatch } = useContext(userContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -37,8 +37,13 @@ function Login() {
 
         axios.post('/api/auth', body, config)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 localStorage.setItem('token', res.data.token)
+                localStorage.setItem('user', JSON.stringify(res.data.user))
+                dispatch({
+                    type: 'USER',
+                    payload: res.data.user
+                })
                 setEmail('')
                 setPassword('')
 
@@ -46,7 +51,6 @@ function Login() {
                 M.Modal.getInstance(signInModal).close()
                 resetForm()
                 M.toast({ html: `Welcome ${res.data.user.username}`, classes: '#e91e63 pink' })
-                history.push('/')
 
             })
             .catch(err => {
