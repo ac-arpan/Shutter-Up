@@ -18,24 +18,26 @@ const Routing = () => {
   const { dispatch } = useContext(userContext)
   const history = useHistory()
 
+  // console.log(history)
+
   useEffect( () => {
     const user = JSON.parse(localStorage.getItem('user'))
+
     if(user) {
       dispatch({
         type: 'USER',
         payload: user
       })
-      history.push('/')
+      history.push(history.location.pathname)
     } else {
-      console.log("Please Login..................!")
       history.push('/index')
     }
   }, [])
 
   return (
     <Switch>
-      <Route path="/index" exact component={Index} />
       <Route path="/" exact component={Home} />
+      <Route path="/index" exact component={Index} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/create" exact component={CreatePost} />
     </Switch>

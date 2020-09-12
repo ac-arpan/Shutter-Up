@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
+import { userContext } from '../context/GlobalState'
 import { Link } from 'react-router-dom'
 import logo from './shutterUp.svg'
 import Login from './Login'
@@ -6,6 +7,23 @@ import Signup from './Signup'
 import M from "materialize-css";
 
 function Navbar() {
+
+    const { state } = useContext(userContext)
+
+    const navLinks = () => {
+        if (state) {
+            return [
+                <li key="1"><Link to="/" className="pink-text">Home</Link></li>,
+                <li key="2"><Link to="/profile" className="pink-text">Profile</Link></li>
+            ]
+        } else {
+            return [
+                <li key="3"><a href="#" className="modal-trigger pink-text" data-target="modal-signup">Signup</a></li>,
+                <li key="4"><a href="#" className="modal-trigger pink-text" data-target="modal-login">Login</a></li>
+            ]
+        }
+
+    }
 
     useEffect(() => {
         // Auto initialize all the things!
@@ -15,38 +33,36 @@ function Navbar() {
         <>
             <nav className="nav-wrapper white z-depth-0">
                 <div className="container">
-                    <Link to="/" className="pink-text brand-logo"><i className="material-icons"><img src={logo} className="nav-logo" /></i></Link>
+                    <Link to={state ? '/' : '/index'} className="pink-text brand-logo"><i className="material-icons"><img src={logo} className="nav-logo" /></i></Link>
                     <a href="#" className="pink-text sidenav-trigger" data-target="mobile-links">
                         <i className="material-icons">menu</i>
                     </a>
 
                     <ul className="right hide-on-med-and-down">
-                        <li><Link to="/" className="pink-text">Home</Link></li>
-                        <li><Link to="/profile" className="pink-text">Profile</Link></li>
-                        <li><a href="#" className="modal-trigger pink-text" data-target="modal-signup">Signup</a></li>
-                        <li><a href="#" className="modal-trigger pink-text" data-target="modal-login">Login</a></li>
+                        {navLinks()}
                     </ul>
                 </div>
             </nav>
 
             <ul className="sidenav" id="mobile-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/create" className="pink-text">Create Post</Link></li>
-                <li><a href="#" className="modal-trigger" data-target="modal-signup">Signup</a></li>
-                <li><a href="#" className="modal-trigger" data-target="modal-login">Login</a></li>
+                {navLinks()}
             </ul>
+
 
             {/* login Modal */}
             <Login />
             {/* signup Modal */}
             <Signup />
-            {/* create post button */}
-            <div className="fixed-action-btn">
-                <Link to="/create" className="btn-floating btn-large pink darken-1">
-                    <i className = "material-icons">add</i>
-                </Link>
-            </div>
+
+
+            {
+                state ?
+                    <div className="fixed-action-btn">
+                        <Link to="/create" className="btn-floating btn-large pink darken-1">
+                            <i className="material-icons">add</i>
+                        </Link>
+                    </div> : null
+            }
         </>
     )
 }
