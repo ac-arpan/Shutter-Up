@@ -9,8 +9,8 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import CreatePost from './components/CreatePost';
+import Index from './components/Index';
 
-import M from "materialize-css";
 
 
 const Routing = () => {
@@ -28,13 +28,13 @@ const Routing = () => {
       history.push('/')
     } else {
       console.log("Please Login..................!")
-      let signInModal = document.querySelector('#modal-login')
-      M.Modal.getInstance(signInModal).open()
+      history.push('/index')
     }
   }, [])
 
   return (
     <Switch>
+      <Route path="/index" exact component={Index} />
       <Route path="/" exact component={Home} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/create" exact component={CreatePost} />
