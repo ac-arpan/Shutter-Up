@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { userContext } from '../context/GlobalState'
 import { Link } from 'react-router-dom'
 import logo from './shutterUp.svg'
@@ -8,13 +9,30 @@ import M from "materialize-css";
 
 function Navbar() {
 
-    const { state } = useContext(userContext)
+    const history = useHistory()
+    const { state, dispatch } = useContext(userContext)
+
+    const logout = async () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+
+        await dispatch({
+            type: 'LOGOUT'
+        })
+
+        history.push('/index')
+
+    }
 
     const navLinks = () => {
         if (state) {
             return [
                 <li key="1"><Link to="/" className="pink-text">Home</Link></li>,
-                <li key="2"><Link to="/profile" className="pink-text">Profile</Link></li>
+                <li key="2"><Link to="/profile" className="pink-text">Profile</Link></li>,
+                <li key="5"><Link to="/profile" className="btn pink z-depth-1" onClick={logout}>
+                    <span>Log Out</span>
+                    <i className="material-icons right white-text">lock_outline</i>
+                </Link></li>,
             ]
         } else {
             return [
