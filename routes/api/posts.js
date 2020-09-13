@@ -13,7 +13,7 @@ const User = require('../../models/User')
 // @access Private
 router.get('/', auth, (req, res) => {
     Post.find({})
-        .populate('postedBy','_id name')
+        .populate('postedBy','_id name username')
         .then(posts => res.json({ posts }))
         .catch(err => console.log(err))
 })

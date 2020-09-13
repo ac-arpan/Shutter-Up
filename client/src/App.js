@@ -28,6 +28,9 @@ const Routing = () => {
         type: 'USER',
         payload: user
       })
+      if(history.location.pathname === '/index') {
+        history.push('/')
+      }
       history.push(history.location.pathname)
     } else {
       history.push('/index')
