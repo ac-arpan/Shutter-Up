@@ -49,4 +49,45 @@ router.post('/create', auth, (req, res) => {
         .then(post => res.json(post))
         .catch(err => console.log(err))
 })
+
+
+// @route  POST /api/posts/like/:postId
+// @desc   Like a Post
+// @access Private
+router.put('/like/:postId', auth, (req, res) => {
+    Post.findByIdAndUpdate(req.params.postId, {
+        $push:{likes: req.user._id}
+    },
+    {
+        new: true
+    }
+    ).exec((err, result) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json(result)
+        }
+    })
+})
+
+// @route  POST /api/posts/dislike/:postId
+// @desc   Like a Post
+// @access Private
+router.put('/dislike/:postId', auth, (req, res) => {
+    Post.findByIdAndUpdate(req.params.postId, {
+        $pull:{likes: req.user._id}
+    },
+    {
+        new: true
+    }
+    ).exec((err, result) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json(result)
+        }
+    })
+})
 module.exports = router
