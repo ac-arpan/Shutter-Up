@@ -1,5 +1,5 @@
-import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 function Home() {
 
@@ -14,7 +14,7 @@ function Home() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }
-        Axios.get('/api/posts', config)
+        axios.get('/api/posts', config)
             .then(res => setPosts(res.data.posts))
             .catch(err => console.log(err))
     }, [])

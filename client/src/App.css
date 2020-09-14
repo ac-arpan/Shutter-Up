@@ -38,6 +38,27 @@
   margin-bottom: 10px !important;
 }
 
+.profile-posts {
+  height: 220px !important;
+}
+@media screen and (max-width:1300px) {
+  .profile-posts{
+    height: 150px !important;;
+  }
+}
+@media screen and (max-width:766px) {
+  .profile-img img.responsive-img {
+    height: 150px;
+  }
+  .profile-posts{
+    height: 100px !important;;
+  }
+}
+@media screen and (max-width:425px) {
+  .profile-posts{
+    height: 75px !important;;
+  }
+}
 @media screen and (max-width:990px) {
   .profile-desc {
     text-align: center !important;

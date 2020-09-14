@@ -25,7 +25,7 @@ router.get('/', auth, (req, res) => {
 router.get('/profile', auth, (req, res) => {
     Post.find({ postedBy: req.user._id })
         .select('-postedBy')
-        .then(posts => res.json({ userId: req.user._id, user:req.user.name, posts }))
+        .then(posts => res.json({ userId: req.user._id, user:req.user.name, username:req.user.username, posts }))
         .catch(err => console.log(err))
 })
 
