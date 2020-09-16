@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 
 function Home() {
 
-    const [posts, setPosts] = useState([])
+    const [ posts, setPosts ] = useState([])
+    const { state } = useContext(userContext)
 
 
     useEffect(() => {
@@ -19,12 +21,51 @@ function Home() {
             .catch(err => console.log(err))
     }, [])
 
-    const handleIconClick = e => {
+    const likeDislike = postId => e => {
         e.preventDefault()
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        const postBody = JSON.stringify({})
+
         if (e.target.textContent.split('_').length === 2) {
+
+            // liking a post
             e.target.textContent = e.target.textContent.split('_')[0]
+            axios.put(`/api/posts/like/${postId}`,postBody, config)
+                .then(res => {
+                    const updatedPosts = posts.map(post => {
+                        if(post._id === res.data._id) {
+                            return res.data
+                        } else {
+                            return post
+                        }
+                    })
+
+                    setPosts(updatedPosts)
+                })
+                .catch(err => console.log(err))
         } else {
+
+            // unliking a post
             e.target.textContent = e.target.textContent + '_border'
+            axios.put(`/api/posts/dislike/${postId}`,postBody, config)
+                .then(res => {
+                    const updatedPosts = posts.map(post => {
+                        if(post._id === res.data._id) {
+                            return res.data
+                        } else {
+                            return post
+                        }
+                    })
+
+                    setPosts(updatedPosts)
+                })
+                .catch(err => console.log(err))
         }
     }
 
@@ -40,21 +81,22 @@ function Home() {
                                     <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
                                     <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.postedBy.username}</span>
                                     <p>{post.postedBy.name}</p>
-                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text text-darken-1" onClick={handleIconClick} >bookmark_border</i></a>
+                                    <a href="#!" className="right"><i className="material-icons pink-text text-darken-1">bookmark_border</i></a>
+                                    <a href="#!" className="secondary-content"><i className="material-icons red-text">delete</i></a>
                                 </li>
                             </ul>
 
                             <div className="card-image">
                                 <img src={post.photo} alt="" />
                                 <a href="#" className="halfway-fab btn-floating white">
-                                    <i className="material-icons red-text text-darken-1" onClick={handleIconClick}>favorite_border</i>
+                                    <i className="material-icons red-text text-darken-1" onClick={likeDislike(post._id)}>{post.likes.includes(state.id)  ? "favorite" : "favorite_border"}</i>
                                 </a>
                             </div>
                             <div className="card-content">
                                 <div className="photo-reach row">
                                     <div className="col s3 l2">
                                         <i className="material-icons red-text left">favorite</i>
-                                        <span>50</span>
+                                        <span>{post.likes.length}</span>
                                     </div>
 `                                   <div className="col s3 l2">
                                         <i className="material-icons green-text  left">comment</i>

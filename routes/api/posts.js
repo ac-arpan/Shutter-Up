@@ -51,7 +51,7 @@ router.post('/create', auth, (req, res) => {
 })
 
 
-// @route  POST /api/posts/like/:postId
+// @route  PUT /api/posts/like/:postId
 // @desc   Like a Post
 // @access Private
 router.put('/like/:postId', auth, (req, res) => {
@@ -71,7 +71,7 @@ router.put('/like/:postId', auth, (req, res) => {
     })
 })
 
-// @route  POST /api/posts/dislike/:postId
+// @route  PUT /api/posts/dislike/:postId
 // @desc   Like a Post
 // @access Private
 router.put('/dislike/:postId', auth, (req, res) => {
