@@ -61,7 +61,8 @@ router.put('/like/:postId', auth, (req, res) => {
     {
         new: true
     }
-    ).exec((err, result) => {
+    )
+    .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
              
@@ -72,7 +73,7 @@ router.put('/like/:postId', auth, (req, res) => {
 })
 
 // @route  PUT /api/posts/dislike/:postId
-// @desc   Like a Post
+// @desc   Unlike a Post
 // @access Private
 router.put('/dislike/:postId', auth, (req, res) => {
     Post.findByIdAndUpdate(req.params.postId, {
@@ -82,6 +83,35 @@ router.put('/dislike/:postId', auth, (req, res) => {
         new: true
     }
     ).exec((err, result) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json(result)
+        }
+    })
+})
+
+
+// @route  PUT /api/posts/comment/:postId
+// @desc   Comment on a Post
+// @access Private
+router.put('/comment/:postId', auth, (req, res) => {
+
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id
+    }
+
+    Post.findByIdAndUpdate(req.params.postId, {
+        $push:{comments: comment}
+    },
+    {
+        new: true
+    }
+    )
+    .populate('comments.postedBy','_id name username')
+    .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
              
