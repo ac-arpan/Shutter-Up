@@ -13,7 +13,7 @@ app.use(express.json())
 const db = config.get('mongoURI')
 
 // Connect to MongoDB
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
 .then( () => console.log('Woooh..!! MongoDB Connected!'))
 .catch(err => console.log(err))
 

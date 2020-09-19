@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
 import axios from 'axios'
+import M from 'materialize-css'
 
 function Home() {
 
@@ -72,6 +73,8 @@ function Home() {
 
     const makeComment = postId => e => {
         e.preventDefault()
+        e.target.comment.value = null
+                
         // the configurations
         const config = {
             headers: {
@@ -82,7 +85,7 @@ function Home() {
         const postBody = JSON.stringify({ text: comment })
         axios.put(`/api/posts/comment/${postId}`, postBody, config)
             .then(res => {
-                console.log(res)
+                console.log(res.data)
                 const updatedPosts = posts.map(post => {
                     if (post._id === res.data._id) {
                         return res.data
@@ -92,8 +95,13 @@ function Home() {
                 })
 
                 setPosts(updatedPosts)
+                setComment('')
+                M.toast({ html: 'Comment Added!', classes: '#e91e63 pink' })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
+                console.log(err)
+            })
     }
 
     return (
@@ -159,7 +167,7 @@ function Home() {
                                     <div className="col s10 offset-s1">
                                         <form onSubmit={makeComment(post._id)}>
                                             <div className="input-field">
-                                                <input type="text" placeholder="add a comment" value={comment} onChange={e => setComment(e.target.value)} />
+                                                <input type="text" name="comment" placeholder="add a comment"  onChange={e => setComment(e.target.value)} />
                                             </div>
                                         </form>
                                     </div>

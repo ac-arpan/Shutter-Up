@@ -14,6 +14,7 @@ const User = require('../../models/User')
 router.get('/', auth, (req, res) => {
     Post.find({})
         .populate('postedBy','_id name username')
+        .populate('comments.postedBy','_id name username')
         .then(posts => res.json({ posts }))
         .catch(err => console.log(err))
 })
@@ -62,6 +63,8 @@ router.put('/like/:postId', auth, (req, res) => {
         new: true
     }
     )
+    .populate('postedBy','_id name username')
+    .populate('comments.postedBy','_id name username')
     .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
@@ -82,7 +85,10 @@ router.put('/dislike/:postId', auth, (req, res) => {
     {
         new: true
     }
-    ).exec((err, result) => {
+    )
+    .populate('postedBy','_id name username')
+    .populate('comments.postedBy','_id name username')
+    .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
              
@@ -110,6 +116,7 @@ router.put('/comment/:postId', auth, (req, res) => {
         new: true
     }
     )
+    .populate('postedBy','_id name username')
     .populate('comments.postedBy','_id name username')
     .exec((err, result) => {
         if(err) {
