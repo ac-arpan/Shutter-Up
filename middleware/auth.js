@@ -1,6 +1,5 @@
 const config = require("config")
 const jwt = require("jsonwebtoken")
-const router = require("../routes/api/auth")
 const mongoose = require('mongoose')
 
 const User = require('../models/User')

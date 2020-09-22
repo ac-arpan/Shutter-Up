@@ -2,9 +2,13 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const auth = require('../../middleware/auth')
 
 // User Model
 const User = require('../../models/User')
+// Post Model
+const Post = require('../../models/Post')
+
 
 
 // @route  POST /api/users
@@ -46,6 +50,26 @@ router.post('/', (req, res) => {
             }
         })
         .catch(err => console.log(err))
+})
+
+// @route  GET /api/users/:userId
+// @desc   Get a single user
+// @access Private
+router.get('/:userId', auth, (req, res) => {
+    User.findById(req.params.userId)
+        .select('-password')
+        .then(user => {
+            Post.find({ postedBy: req.params.userId })
+            .then(posts => {
+                res.json({ user: user, posts: posts})
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            return res.status(400).json({ msg: err })
+        })
 })
 
 module.exports = router
