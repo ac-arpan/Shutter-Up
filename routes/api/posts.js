@@ -127,4 +127,30 @@ router.put('/comment/:postId', auth, (req, res) => {
         }
     })
 })
+
+// @route  DELETE /api/posts/delete/:postId
+// @desc   Deleting  a Post
+// @access Private
+router.delete('/delete/:postId', auth, (req, res) => {
+
+    Post.findOne({ _id: req.params.postId })
+        .populate('postedBy', '_id')
+        .exec((err, post) => {
+            if(err || !post) {
+                return res.status(400).json({ msg : err })
+            } else {
+                if(post.postedBy._id.toString() === req.user._id.toString()) {
+                    post.remove()
+                        .then(result => {
+                            res.json({ message: 'Successfully Deleted!' })
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    return res.status(400).json({ msg : "Not authorized!" })
+                }
+
+            }
+        })
+})
+
 module.exports = router

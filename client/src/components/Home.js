@@ -9,6 +9,7 @@ function Home() {
     const [comment, setComment] = useState('')
     const { state } = useContext(userContext)
 
+    console.log(posts)
 
     useEffect(() => {
 
@@ -104,6 +105,31 @@ function Home() {
             })
     }
 
+    const deletePost = postId => e => {
+
+        e.preventDefault()
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        axios.delete(`/api/posts/delete/${postId}`,config)
+            .then(res => {
+                
+                console.log(res.data)
+                M.toast({ html: res.data.message, classes: 'e91e63 pink' })
+                const updatedPosts = posts.filter(post => post._id !== postId)
+                setPosts(updatedPosts)
+    
+            })
+            .catch(err => {
+                M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
+                console.log(err)
+            })
+    }
+
     return (
         <div className="home">
             <div className="row">
@@ -117,7 +143,10 @@ function Home() {
                                     <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.postedBy.username}</span>
                                     <p>{post.postedBy.name}</p>
                                     <a href="#!" className="right"><i className="material-icons pink-text text-darken-1">bookmark_border</i></a>
-                                    <a href="#!" className="secondary-content"><i className="material-icons red-text">delete</i></a>
+                                    {state.id === post.postedBy._id 
+                                        ?<a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
+                                        : null
+                                    }
                                 </li>
                             </ul>
 
