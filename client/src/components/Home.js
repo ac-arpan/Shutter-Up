@@ -9,7 +9,7 @@ function Home() {
     const [comment, setComment] = useState('')
     const { state } = useContext(userContext)
 
-    console.log(posts)
+
 
     useEffect(() => {
 
@@ -175,16 +175,22 @@ function Home() {
                                 <p>{post.body}</p>
                                 { post.comments.length > 0 ? 
                                         <div className="comment row">
-                                        <div className="col s11 offset-s1">
-                                            <ul className="collection comment-collection">
-                                                <li className="collection-item avatar">
-                                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                                    <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
-                                                    <p>{post.comments[0].text}</p>
-                                                </li>
-                                            </ul>
-                                            <p className="grey-text text-darken-1">view more...</p>
-                                        </div>
+                                            <div className="col s11 offset-s1">
+                                                <ul className="collection comment-collection">
+                                                    <li className="collection-item avatar">
+                                                        <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
+                                                        <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
+                                                        <p>{post.comments[0].text}</p>
+                                                        {
+                                                            post.comments[0].postedBy._id === state.id 
+                                                            ?<p className="blue-text" style={{fontStyle:'italic', cursor:'pointer'}}>delete</p>
+                                                            : null 
+                                                        }
+                                                        
+                                                    </li>
+                                                </ul>
+                                                <p className="grey-text text-darken-1">view more...</p>
+                                            </div>
     
                                     </div> 
                                     : null
