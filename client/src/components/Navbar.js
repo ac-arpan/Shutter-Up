@@ -27,17 +27,17 @@ function Navbar() {
     const navLinks = () => {
         if (state) {
             return [
-                <li key="1"><Link to="/" className="pink-text">Home</Link></li>,
-                <li key="2"><Link to="/profile" className="pink-text">Profile</Link></li>,
-                <li key="5"><Link to="/profile" className="btn pink z-depth-1" onClick={logout}>
+                <li key="1"><Link to="/" className="sidenav-close pink-text">Home</Link></li>,
+                <li key="2"><Link to="/profile" className="sidenav-close pink-text">Profile</Link></li>,
+                <li key="5"><Link to="/profile" className="sidenav-close btn pink z-depth-1" onClick={logout}>
                     <span>Log Out</span>
                     <i className="material-icons right white-text">lock_outline</i>
                 </Link></li>,
             ]
         } else {
             return [
-                <li key="3"><a href="#" className="modal-trigger pink-text" data-target="modal-signup">Signup</a></li>,
-                <li key="4"><a href="#" className="modal-trigger pink-text" data-target="modal-login">Login</a></li>
+                <li key="3"><a href="#" className="sidenav-close modal-trigger pink-text" data-target="modal-signup">Signup</a></li>,
+                <li key="4"><a href="#" className="sidenav-close modal-trigger pink-text" data-target="modal-login">Login</a></li>
             ]
         }
 
