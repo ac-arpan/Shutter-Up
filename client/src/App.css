@@ -128,3 +128,8 @@ color: rgb(255, 27, 65) !important;
 .index-page {
   margin-top: 3rem !important;
 }
+
+/* SinglePost */
+.singlePost {
+  padding: 0 !important;
+}

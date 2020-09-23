@@ -44,8 +44,13 @@ function Navbar() {
     }
 
     useEffect(() => {
-        // Auto initialize all the things!
-        M.AutoInit();
+        //  initialize all the Materialize things!
+        let modals = document.querySelectorAll('.authModal');
+        M.Modal.init(modals);
+
+        let sidenav = document.querySelectorAll('.sidenav')
+        M.Sidenav.init(sidenav)
+
     }, [])
     return (
         <>

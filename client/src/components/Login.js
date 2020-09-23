@@ -58,7 +58,7 @@ function Login() {
         return (
             <>
                 {/* LOGIN MODAL */}
-                <div id="modal-login" className="modal">
+                <div id="modal-login" className="modal authModal">
                     <div className="modal-content">
                         <div className="center" >
                             <img src={logo} className="auth-logo" />

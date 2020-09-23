@@ -2,17 +2,22 @@ import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 import M from 'materialize-css'
+import SinglePost from './SinglePost'
 
 function Home() {
 
     const [posts, setPosts] = useState([])
     const [comment, setComment] = useState('')
+    const [openedPost, setOpenedPost] = useState('')
     const { state } = useContext(userContext)
 
 
 
     useEffect(() => {
-
+        let postModal = document.getElementById('modal-post')
+        M.Modal.init(postModal, {
+            onCloseEnd: () => setOpenedPost('')
+        })
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +80,7 @@ function Home() {
     const makeComment = postId => e => {
         e.preventDefault()
         e.target.comment.value = null
-                
+
         // the configurations
         const config = {
             headers: {
@@ -86,7 +91,7 @@ function Home() {
         const postBody = JSON.stringify({ text: comment })
         axios.put(`/api/posts/comment/${postId}`, postBody, config)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 const updatedPosts = posts.map(post => {
                     if (post._id === res.data._id) {
                         return res.data
@@ -115,14 +120,14 @@ function Home() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }
-        axios.delete(`/api/posts/delete/${postId}`,config)
+        axios.delete(`/api/posts/delete/${postId}`, config)
             .then(res => {
-                
-                console.log(res.data)
+
+                // console.log(res.data)
                 M.toast({ html: res.data.message, classes: 'e91e63 pink' })
                 const updatedPosts = posts.filter(post => post._id !== postId)
                 setPosts(updatedPosts)
-    
+
             })
             .catch(err => {
                 M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
@@ -134,7 +139,7 @@ function Home() {
         <div className="home">
             <div className="row">
 
-                {posts && posts.map(post => (
+                {posts.length > 0 ? posts.map(post => (
                     <div key={post._id} className="col s12 l6 offset-l3" >
                         <div className="card">
                             <ul className="collection">
@@ -143,8 +148,8 @@ function Home() {
                                     <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.postedBy.username}</span>
                                     <p>{post.postedBy.name}</p>
                                     <a href="#!" className="right"><i className="material-icons pink-text text-darken-1">bookmark_border</i></a>
-                                    {state.id === post.postedBy._id 
-                                        ?<a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
+                                    {state.id === post.postedBy._id
+                                        ? <a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
                                         : null
                                     }
                                 </li>
@@ -173,26 +178,26 @@ function Home() {
                                 </div>
                                 <span className="card-title pink-text text-darken-2">{post.title}</span>
                                 <p>{post.body}</p>
-                                { post.comments.length > 0 ? 
-                                        <div className="comment row">
-                                            <div className="col s11 offset-s1">
-                                                <ul className="collection comment-collection">
-                                                    <li className="collection-item avatar">
-                                                        <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                                        <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
-                                                        <p>{post.comments[0].text}</p>
-                                                        {
-                                                            post.comments[0].postedBy._id === state.id 
-                                                            ?<p className="blue-text" style={{fontStyle:'italic', cursor:'pointer'}}>delete</p>
-                                                            : null 
-                                                        }
-                                                        
-                                                    </li>
-                                                </ul>
-                                                <p className="grey-text text-darken-1">view more...</p>
-                                            </div>
-    
-                                    </div> 
+                                {post.comments.length > 0 ?
+                                    <div className="comment row">
+                                        <div className="col s11 offset-s1">
+                                            <ul className="collection comment-collection">
+                                                <li className="collection-item avatar">
+                                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
+                                                    <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
+                                                    <p>{post.comments[0].text}</p>
+                                                    {
+                                                        post.comments[0].postedBy._id === state.id
+                                                            ? <p className="blue-text" style={{ fontStyle: 'italic', cursor: 'pointer' }}>delete</p>
+                                                            : null
+                                                    }
+
+                                                </li>
+                                            </ul>
+                                            <p className="modal-trigger grey-text text-darken-1" style={{ cursor: 'pointer' }} data-target="modal-post" onClick={() => setOpenedPost(post._id)}>view more...</p>
+                                        </div>
+
+                                    </div>
                                     : null
                                 }
                                 <div className="user-comment row">
@@ -202,7 +207,7 @@ function Home() {
                                     <div className="col s10 offset-s1">
                                         <form onSubmit={makeComment(post._id)}>
                                             <div className="input-field">
-                                                <input type="text" name="comment" placeholder="add a comment"  onChange={e => setComment(e.target.value)} />
+                                                <input type="text" name="comment" placeholder="add a comment" onChange={e => setComment(e.target.value)} />
                                             </div>
                                         </form>
                                     </div>
@@ -213,12 +218,60 @@ function Home() {
                         </div>
 
                     </div>
-                ))}
+                ))
+                    :
+                    <div className="center" style={{margin: '100px auto' }}>
+                        <div className="preloader-wrapper small active">
+                            <div className="spinner-layer spinner-blue">
+                                <div className="circle-clipper left">
+                                    <div className="circle"></div>
+                                </div><div className="gap-patch">
+                                    <div className="circle"></div>
+                                </div><div className="circle-clipper right">
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+
+                            <div className="spinner-layer spinner-red">
+                                <div className="circle-clipper left">
+                                    <div className="circle"></div>
+                                </div><div className="gap-patch">
+                                    <div className="circle"></div>
+                                </div><div className="circle-clipper right">
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+
+                            <div className="spinner-layer spinner-yellow">
+                                <div className="circle-clipper left">
+                                    <div className="circle"></div>
+                                </div><div className="gap-patch">
+                                    <div className="circle"></div>
+                                </div><div className="circle-clipper right">
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+
+                            <div className="spinner-layer spinner-green">
+                                <div className="circle-clipper left">
+                                    <div className="circle"></div>
+                                </div><div className="gap-patch">
+                                    <div className="circle"></div>
+                                </div><div className="circle-clipper right">
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
 
 
 
             </div>
+
+            {/* The Single Post Modal */}
+            <SinglePost postId={openedPost} />
         </div>
     )
 }

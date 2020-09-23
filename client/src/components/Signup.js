@@ -61,7 +61,7 @@ function Signup() {
         return (
             <>
                 {/* SIGN UP MODAL */}
-                <div id="modal-signup" className="modal">
+                <div id="modal-signup" className="modal authModal">
                     <div className="modal-content">
                         <div className="center" >
                             <img src={logo} className="auth-logo" />

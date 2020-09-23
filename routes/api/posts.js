@@ -153,4 +153,15 @@ router.delete('/delete/:postId', auth, (req, res) => {
         })
 })
 
+// @route  GET /api/posts/:postId
+// @desc   Get a single Posts
+// @access Private
+router.get('/:postId', auth, (req, res) => {
+    Post.findById(req.params.postId)
+        .populate('postedBy','_id name username')
+        .populate('comments.postedBy','_id name username')
+        .then(post => res.json({ post }))
+        .catch(err => console.log(err))
+})
+
 module.exports = router
