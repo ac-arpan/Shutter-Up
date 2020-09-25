@@ -8,6 +8,7 @@ import { userContext } from './context/GlobalState'
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Profile from './components/Profile';
+import UserProfile from './components/UserProfile';
 import CreatePost from './components/CreatePost';
 import Index from './components/Index';
 
@@ -42,6 +43,7 @@ const Routing = () => {
       <Route path="/" exact component={Home} />
       <Route path="/index" exact component={Index} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/:userId"  component={UserProfile} />
       <Route path="/create" exact component={CreatePost} />
     </Switch>
   )

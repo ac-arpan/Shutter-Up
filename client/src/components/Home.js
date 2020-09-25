@@ -3,6 +3,7 @@ import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 import M from 'materialize-css'
 import SinglePost from './SinglePost'
+import { Link } from 'react-router-dom'
 
 function Home() {
 
@@ -145,8 +146,8 @@ function Home() {
                             <ul className="collection">
                                 <li className="collection-item avatar">
                                     <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
-                                    <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.postedBy.username}</span>
-                                    <p>{post.postedBy.name}</p>
+                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color:'black' }}>{post.postedBy.username}</span></Link>
+                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
                                     <a href="#!" className="right"><i className="material-icons pink-text text-darken-1">bookmark_border</i></a>
                                     {state.id === post.postedBy._id
                                         ? <a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>

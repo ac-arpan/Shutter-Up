@@ -1,12 +1,13 @@
-
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
-function Profile() {
+function UserProfile() {
 
 
     const [userInfo, setUserinfo] = useState(null)
     const [userPosts, setUserPosts] = useState(null)
+    const { userId } = useParams()
 
 
     useEffect(() => {
@@ -17,13 +18,14 @@ function Profile() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }
-        axios.get('/api/posts/profile', config)
+        axios.get(`/api/users/${userId}`, config)
             .then(res => {
-                setUserinfo(res.data)
+                console.log(res.data)
+                setUserinfo(res.data.user)
                 setUserPosts(res.data.posts)
             })
             .catch(err => console.log(err))
-    }, [])
+    }, [userId])
 
     return (
         <div className="container profile-page">
@@ -34,7 +36,7 @@ function Profile() {
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>
-                            <h4>{userInfo['user'] && userInfo.user.split(' ')[0]} <span className="pink-text">{userInfo['user'] && userInfo.user.split(' ')[1]}</span></h4>
+                            <h4>{userInfo.name.split(' ')[0]} <span className="pink-text">{userInfo.name.split(' ')[1]}</span></h4>
                         </blockquote>
                         <h5>{userInfo.username}</h5>
                         <div className="row">
@@ -72,6 +74,5 @@ function Profile() {
     )
 }
 
-export default Profile
-
+export default UserProfile
 
