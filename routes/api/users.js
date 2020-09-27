@@ -52,6 +52,78 @@ router.post('/', (req, res) => {
         .catch(err => console.log(err))
 })
 
+// @route  PUT /api/users/follow/:userId
+// @desc   Follow a User
+// @access Private
+router.put('/follow/:userId', auth, (req, res) => {
+    User.findByIdAndUpdate(req.params.userId, {
+        $push:{followers: req.user._id}
+    },
+    {
+        new: true
+    }
+    )
+    .select('-password')
+    .exec((err, followedUser) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            User.findByIdAndUpdate(req.user._id, {
+                $push: {followings: req.params.userId}
+            },
+            {
+                new: true
+            }
+            )
+            .select('-password')
+            .exec((err, followingUser) => {
+                if(err) {
+                    return res.status(400).json({ msg : err })
+                } else {
+                    return res.json({ followedUser, followingUser })
+                }
+            })
+        }
+    })
+})
+
+// @route  PUT /api/users/unfollow/:userId
+// @desc   unfollow a User
+// @access Private
+router.put('/unfollow/:userId', auth, (req, res) => {
+    User.findByIdAndUpdate(req.params.userId, {
+        $pull:{followers: req.user._id}
+    },
+    {
+        new: true
+    }
+    )
+    .select('-password')
+    .exec((err, unFollowedUser) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            User.findByIdAndUpdate(req.user._id, {
+                $pull: {followings: req.params.userId}
+            },
+            {
+                new: true
+            }
+            )
+            .select('-password')
+            .exec((err, unFollowingUser) => {
+                if(err) {
+                    return res.status(400).json({ msg : err })
+                } else {
+                    return res.json({ unFollowedUser, unFollowingUser })
+                }
+            })
+        }
+    })
+})
+
 // @route  GET /api/users/:userId
 // @desc   Get a single user
 // @access Private
@@ -71,5 +143,7 @@ router.get('/:userId', auth, (req, res) => {
             return res.status(400).json({ msg: err })
         })
 })
+
+
 
 module.exports = router
