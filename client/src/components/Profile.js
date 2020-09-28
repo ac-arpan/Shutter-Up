@@ -43,11 +43,11 @@ function Profile() {
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
                             </div>
                             <div className="col s4">
-                                <h4>7000</h4>
+                                <h4>{userInfo.followers.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Follower</p>
                             </div>
                             <div className="col s4">
-                                <h4>212</h4>
+                                <h4>{userInfo.followings.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Following</p>
                             </div>
                         </div>

@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
+import { userContext } from '../context/GlobalState'
 import { useParams } from 'react-router-dom'
+import M from 'materialize-css'
 
 function UserProfile() {
 
 
+    const { state } = useContext(userContext)
     const [userInfo, setUserinfo] = useState(null)
     const [userPosts, setUserPosts] = useState(null)
     const { userId } = useParams()
+
 
 
     useEffect(() => {
@@ -20,12 +24,50 @@ function UserProfile() {
         }
         axios.get(`/api/users/${userId}`, config)
             .then(res => {
-                console.log(res.data)
                 setUserinfo(res.data.user)
                 setUserPosts(res.data.posts)
             })
             .catch(err => console.log(err))
     }, [userId])
+
+
+    const followUser = userId => e => {
+        e.preventDefault()
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        const postBody = JSON.stringify({})
+
+            axios.put(`/api/users/follow/${userId}`, postBody, config)
+                .then(res => {
+                    setUserinfo(res.data.followedUser)
+                })
+                .catch(err => console.log(err))
+        
+    }
+
+    const unFollowUser = userId => e => {
+        e.preventDefault()
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        const postBody = JSON.stringify({})
+
+            axios.put(`/api/users/unfollow/${userId}`, postBody, config)
+                .then(res => {
+                    setUserinfo(res.data.unFollowedUser)
+                })
+                .catch(err => console.log(err))
+        
+    }
 
     return (
         <div className="container profile-page">
@@ -45,12 +87,29 @@ function UserProfile() {
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
                             </div>
                             <div className="col s4">
-                                <h4>7000</h4>
+                                <h4>{userInfo.followers.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Follower</p>
                             </div>
                             <div className="col s4">
-                                <h4>212</h4>
+                                <h4>{userInfo.followings.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Following</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col s4">
+                                {
+                                    userInfo.followers.includes(state.id) 
+                                        ? 
+                                        <button className="btn pink waves-effect waves-light" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
+                                        : 
+                                        <button className="btn pink waves-effect waves-light" onClick={followUser(userInfo._id)}>Follow</button>
+                                }
+                            </div>
+                            <div className="col s4">
+                                <button className="btn pink waves-effect waves-light">Message</button>
+                            </div>
+                            <div className="col s4">
+                                <a className="btn pink waves-effect waves-light ">Email</a>
                             </div>
                         </div>
                     </div>
