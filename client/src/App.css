@@ -43,7 +43,7 @@
 }
 @media screen and (max-width:1300px) {
   .profile-posts{
-    height: 150px !important;;
+    height: 150px !important;
   }
 }
 @media screen and (max-width:766px) {
@@ -51,12 +51,12 @@
     height: 150px;
   }
   .profile-posts{
-    height: 100px !important;;
+    height: 100px !important;
   }
 }
 @media screen and (max-width:425px) {
   .profile-posts{
-    height: 75px !important;;
+    height: 75px !important;
   }
 }
 @media screen and (max-width:990px) {
@@ -132,4 +132,12 @@ color: rgb(255, 27, 65) !important;
 /* SinglePost */
 .singlePost {
   padding: 0 !important;
+}
+
+/* Follow, Unfollow button */
+@media screen and (max-width:766px) {
+  .sp-btn {
+    font-size: 10px !important;
+    padding: 0px 10px !important;
+  }
 }

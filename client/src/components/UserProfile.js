@@ -100,16 +100,16 @@ function UserProfile() {
                                 {
                                     userInfo.followers.includes(state.id) 
                                         ? 
-                                        <button className="btn pink waves-effect waves-light" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
+                                        <button className="btn pink waves-effect waves-light  sp-btn" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
                                         : 
-                                        <button className="btn pink waves-effect waves-light" onClick={followUser(userInfo._id)}>Follow</button>
+                                        <button className="btn pink waves-effect waves-light sp-btn" onClick={followUser(userInfo._id)}>Follow</button>
                                 }
                             </div>
                             <div className="col s4">
-                                <button className="btn pink waves-effect waves-light">Message</button>
+                                <button className="btn pink waves-effect waves-light sp-btn">Message</button>
                             </div>
                             <div className="col s4">
-                                <a className="btn pink waves-effect waves-light ">Email</a>
+                                <a className="btn pink waves-effect waves-light sp-btn">Email</a>
                             </div>
                         </div>
                     </div>
