@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import UserProfile from './components/UserProfile';
 import CreatePost from './components/CreatePost';
 import Index from './components/Index';
+import SubscribedPosts from './components/SubscribedPosts';
 
 
 
@@ -41,6 +42,7 @@ const Routing = () => {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/subscribedPosts" exact component={SubscribedPosts} />
       <Route path="/index" exact component={Index} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/profile/:userId"  component={UserProfile} />

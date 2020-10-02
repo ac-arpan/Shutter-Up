@@ -27,8 +27,9 @@ function Navbar() {
     const navLinks = () => {
         if (state) {
             return [
-                <li key="1"><Link to="/" className="sidenav-close pink-text">Home</Link></li>,
+                <li className="active" key="1"><Link to="/" className="sidenav-close pink-text">Home</Link></li>,
                 <li key="2"><Link to="/profile" className="sidenav-close pink-text">Profile</Link></li>,
+                <li key="6"><Link to="/subscribedPosts" className="sidenav-close pink-text">Favorites</Link></li>,
                 <li key="5"><Link to="/profile" className="sidenav-close btn pink z-depth-1" onClick={logout}>
                     <span>Log Out</span>
                     <i className="material-icons right white-text">lock_outline</i>
