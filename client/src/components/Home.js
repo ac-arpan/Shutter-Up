@@ -43,6 +43,8 @@ function Home() {
 
         if (e.target.textContent.split('_').length === 2) {
 
+            document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.add('disabled')
+            document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.add('pulse')
             // liking a post
             e.target.textContent = e.target.textContent.split('_')[0]
             axios.put(`/api/posts/like/${postId}`, postBody, config)
@@ -56,10 +58,13 @@ function Home() {
                     })
 
                     setPosts(updatedPosts)
+                    document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.remove('disabled')
+                    document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.remove('pulse')
                 })
                 .catch(err => console.log(err))
         } else {
 
+            document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.add('disabled')
             // unliking a post
             e.target.textContent = e.target.textContent + '_border'
             axios.put(`/api/posts/dislike/${postId}`, postBody, config)
@@ -73,6 +78,7 @@ function Home() {
                     })
 
                     setPosts(updatedPosts)
+                    document.getElementById(`${postId}`).querySelector('.halfway-fab').classList.remove('disabled')
                 })
                 .catch(err => console.log(err))
         }
@@ -141,7 +147,7 @@ function Home() {
             <div className="row">
 
                 {posts.length > 0 ? posts.map(post => (
-                    <div key={post._id} className="col s12 l6 offset-l3" >
+                    <div key={post._id} className="col s12 l6 offset-l3" id={post._id} >
                         <div className="card">
                             <ul className="collection">
                                 <li className="collection-item avatar">

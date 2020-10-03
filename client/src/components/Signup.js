@@ -28,6 +28,8 @@ function Signup() {
     }
     const handleSubmit = e => {
         e.preventDefault()
+        document.querySelector('#reg-btn').classList.add('disabled')
+        document.querySelector('#reg-btn').classList.add('pulse')
         // Headers
         const config = {
             headers: {
@@ -54,6 +56,8 @@ function Signup() {
             })
             .catch(err => {
                 M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
+                document.querySelector('#reg-btn').classList.remove('disabled')
+                document.querySelector('#reg-btn').classList.remove('pulse')
             })
 
     }
@@ -89,7 +93,7 @@ function Signup() {
                                 <input type="password" id="signup-password" required value={password} onChange={e => setPassword(e.target.value)} />
                                 <label htmlFor="signup-password">Choose password</label>
                             </div>
-                            <button className="btn pink darken-1 z-depth-1">
+                            <button className="btn pink darken-1 z-depth-1" id="reg-btn">
                                 <span>Signup</span>
                                 <i className="material-icons right">assignment_ind</i>
                             </button>
