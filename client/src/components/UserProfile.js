@@ -32,7 +32,11 @@ function UserProfile() {
 
 
     const followUser = userId => e => {
+
         e.preventDefault()
+
+        document.querySelector('#follow-btn').classList.add('disabled')
+        document.querySelector('#follow-btn').classList.add('pulse')
         // the configurations
         const config = {
             headers: {
@@ -45,6 +49,8 @@ function UserProfile() {
             axios.put(`/api/users/follow/${userId}`, postBody, config)
                 .then(res => {
                     setUserinfo(res.data.followedUser)
+                    document.querySelector('#follow-btn').classList.remove('disabled')
+                    document.querySelector('#follow-btn').classList.remove('pulse')
                 })
                 .catch(err => console.log(err))
         
@@ -52,6 +58,8 @@ function UserProfile() {
 
     const unFollowUser = userId => e => {
         e.preventDefault()
+        document.querySelector('#unFollow-btn').classList.add('disabled')
+        document.querySelector('#unFollow-btn').classList.add('pulse')
         // the configurations
         const config = {
             headers: {
@@ -64,6 +72,8 @@ function UserProfile() {
             axios.put(`/api/users/unfollow/${userId}`, postBody, config)
                 .then(res => {
                     setUserinfo(res.data.unFollowedUser)
+                    document.querySelector('#unFollow-btn').classList.remove('disabled')
+                    document.querySelector('#unFollow-btn').classList.remove('pulse')
                 })
                 .catch(err => console.log(err))
         
@@ -100,16 +110,19 @@ function UserProfile() {
                                 {
                                     userInfo.followers.includes(state.id) 
                                         ? 
-                                        <button className="btn pink waves-effect waves-light  sp-btn" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
+                                        <button id="unFollow-btn" className="btn pink waves-effect waves-light  sp-btn" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
                                         : 
-                                        <button className="btn pink waves-effect waves-light sp-btn" onClick={followUser(userInfo._id)}>Follow</button>
+                                        <button id="follow-btn" className="btn pink waves-effect waves-light sp-btn" onClick={followUser(userInfo._id)}>Follow</button>
                                 }
                             </div>
                             <div className="col s4">
                                 <button className="btn pink waves-effect waves-light sp-btn">Message</button>
                             </div>
                             <div className="col s4">
-                                <a className="btn pink waves-effect waves-light sp-btn">Email</a>
+                                {/* <a className="btn pink waves-effect waves-light sp-btn"
+                                onClick={() => M.toast({ html: `<h4><a href="https://mail.google.com/mail/?view=cm&fs=1&to=someone@example.com&su=SUBJECT&body=BODY" target="_blank"> ${userInfo.email}</a></h4>`, classes: '#e91e63 pink' })}>Email</a> */}
+                                <a className="btn pink waves-effect waves-light sp-btn"
+                                onClick={() => M.toast({ html: `${userInfo.email}`, classes: '#e91e63 pink' })}>Email</a>
                             </div>
                         </div>
                     </div>
