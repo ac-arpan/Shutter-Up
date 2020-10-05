@@ -60,6 +60,11 @@ nav {
 .profile-posts {
   height: 220px !important;
 }
+.p-img {
+  width: 250px !important;
+  height: 250px !important;
+}
+
 @media screen and (max-width:1300px) {
   .profile-posts{
     height: 150px !important;

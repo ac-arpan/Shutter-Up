@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
                             const token = jwt.sign({ _id: user.id}, JWT_SECRET)
                             res.json({
                                 token: token,
-                                user: { id: user._id, name: user.name, username: user.username, email: user.email }
+                                user: { id: user._id, name: user.name, username: user.username, email: user.email, photo: user.photo }
                             })
                         }
                         else {

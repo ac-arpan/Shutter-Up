@@ -30,7 +30,11 @@ const userSchema = new Schema({
             type: ObjectId,
             ref: 'User'
         }
-    ]
+    ],
+    photo: {
+        type: String,
+        required: true
+    }
 })
 
 const User = mongoose.model('User', userSchema)

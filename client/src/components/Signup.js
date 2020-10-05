@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 import logo from './shutterUp.svg'
@@ -11,6 +11,16 @@ function Signup() {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [profileImage, setProfileImage] = useState({})
+    const [url, setUrl] = useState('')
+
+
+    useEffect( () => {
+        if(url) {
+            console.log(url)
+            handleSubmit()
+        }
+    }, [url])
 
     const openSignIn = () => {
         let signUpModal = document.querySelector('#modal-signup')
@@ -21,23 +31,31 @@ function Signup() {
     }
 
     const resetForm = () => {
-        const inputs = document.getElementById('signup-form').getElementsByTagName('input')
-        Array.from(inputs).forEach(input => {
+        let inputs = document.getElementById('signup-form').getElementsByTagName('input')
+        console.log(inputs)
+        inputs = Array.from(inputs)
+        console.log(inputs)
+
+        inputs.pop()
+        console.log(inputs)
+        inputs.pop()
+        console.log(inputs)
+        inputs.forEach(input => {
             input.nextSibling.classList.remove('active')
         });
     }
-    const handleSubmit = e => {
-        e.preventDefault()
-        document.querySelector('#reg-btn').classList.add('disabled')
-        document.querySelector('#reg-btn').classList.add('pulse')
+    const handleSubmit = () => {
+
         // Headers
         const config = {
             headers: {
                 'Content-Type': 'application/json'
             }
         }
+
+        const photoUrl = url ? url : "https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
         // Request Body
-        const body = JSON.stringify({ name, username, email, password })
+        const body = JSON.stringify({ name, username, email, password, photo: photoUrl })
 
         axios.post('/api/users', body, config)
             .then(res => {
@@ -55,12 +73,39 @@ function Signup() {
 
             })
             .catch(err => {
+                console.log(err)
                 M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
                 document.querySelector('#reg-btn').classList.remove('disabled')
                 document.querySelector('#reg-btn').classList.remove('pulse')
             })
 
     }
+
+    const postImage = e => {
+        
+        e.preventDefault()
+
+        document.querySelector('#reg-btn').classList.add('disabled')
+        document.querySelector('#reg-btn').classList.add('pulse')
+
+        // Posting the image to the cloudinary
+        const data = new FormData()
+
+        data.append("file", profileImage)
+        data.append("upload_preset", 'shutter')
+        data.append("cloud_name", 'shutter-up')
+
+        console.log(data)
+        axios.post('https://api.cloudinary.com/v1_1/shutter-up/image/upload', data)
+            .then(res => {
+                console.log(res.data)
+                setUrl(res.data["secure_url"])
+            })
+            .catch(err => console.log(err))
+
+
+    }
+
     if (!state) {
         return (
             <>
@@ -72,7 +117,7 @@ function Signup() {
                         </div>
                         <h4 className="pink-text text-darken-1" >Sign up</h4>
                         <br />
-                        <form id="signup-form" onSubmit={handleSubmit}>
+                        <form id="signup-form" onSubmit={postImage}>
                             <div className="input-field">
                                 <i className="material-icons prefix">account_circle</i>
                                 <input type="text" id="signup-name" required value={name} onChange={e => setName(e.target.value)} />
@@ -93,6 +138,15 @@ function Signup() {
                                 <input type="password" id="signup-password" required value={password} onChange={e => setPassword(e.target.value)} />
                                 <label htmlFor="signup-password">Choose password</label>
                             </div>
+                            <div className="file-field input-field">
+                                <div className="btn pink darken-1">
+                                    <span>Choose Profile Pic</span>
+                                    <input type="file" onChange={e => setProfileImage(e.target.files[0])} />
+                                </div>
+                                <div className="file-path-wrapper">
+                                    <input className="file-path validate" type="text" />
+                                </div>
+                            </div>
                             <button className="btn pink darken-1 z-depth-1" id="reg-btn">
                                 <span>Signup</span>
                                 <i className="material-icons right">assignment_ind</i>
@@ -107,7 +161,7 @@ function Signup() {
 
             </>
         )
-    }else {
+    } else {
         return (
             <div id="modal-signup" className="modal">
                 <div className="modal-content">

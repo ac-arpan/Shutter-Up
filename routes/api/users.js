@@ -16,7 +16,7 @@ const Post = require('../../models/Post')
 // @access Public
 router.post('/', (req, res) => {
 
-    const { name, username, email, password } = req.body
+    const { name, username, email, password, photo } = req.body
 
     // Validation
     if(!email || !username || !name || !password) {
@@ -37,7 +37,8 @@ router.post('/', (req, res) => {
                             name,
                             email,
                             username,
-                            password: hashedPassword
+                            password: hashedPassword,
+                            photo
                         })
         
                         user.save()

@@ -13,8 +13,8 @@ const User = require('../../models/User')
 // @access Private
 router.get('/', auth, (req, res) => {
     Post.find({})
-        .populate('postedBy','_id name username')
-        .populate('comments.postedBy','_id name username')
+        .populate('postedBy','_id name username photo')
+        .populate('comments.postedBy','_id name username photo')
         .then(posts => res.json({ posts }))
         .catch(err => console.log(err))
 })
@@ -24,8 +24,8 @@ router.get('/', auth, (req, res) => {
 // @access Private
 router.get('/followingPost', auth, (req, res) => {
     Post.find({ postedBy : { $in: req.user.followings }})
-        .populate('postedBy','_id name username')
-        .populate('comments.postedBy','_id name username')
+        .populate('postedBy','_id name username photo')
+        .populate('comments.postedBy','_id name username photo')
         .then(posts => res.json({ posts }))
         .catch(err => console.log(err))
 })
@@ -37,7 +37,7 @@ router.get('/followingPost', auth, (req, res) => {
 router.get('/profile', auth, (req, res) => {
     Post.find({ postedBy: req.user._id })
         .select('-postedBy')
-        .then(posts => res.json({ userId: req.user._id, user:req.user.name, username:req.user.username, followers:req.user.followers, followings:req.user.followings, posts }))
+        .then(posts => res.json({ userId: req.user._id, user:req.user.name, username:req.user.username, followers:req.user.followers, followings:req.user.followings, photo:req.user.photo, posts }))
         .catch(err => console.log(err))
 })
 
@@ -74,8 +74,8 @@ router.put('/like/:postId', auth, (req, res) => {
         new: true
     }
     )
-    .populate('postedBy','_id name username')
-    .populate('comments.postedBy','_id name username')
+    .populate('postedBy','_id name username photo')
+    .populate('comments.postedBy','_id name username photo')
     .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
@@ -97,8 +97,8 @@ router.put('/dislike/:postId', auth, (req, res) => {
         new: true
     }
     )
-    .populate('postedBy','_id name username')
-    .populate('comments.postedBy','_id name username')
+    .populate('postedBy','_id name username photo')
+    .populate('comments.postedBy','_id name username photo')
     .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
@@ -127,8 +127,8 @@ router.put('/comment/:postId', auth, (req, res) => {
         new: true
     }
     )
-    .populate('postedBy','_id name username')
-    .populate('comments.postedBy','_id name username')
+    .populate('postedBy','_id name username photo')
+    .populate('comments.postedBy','_id name username photo')
     .exec((err, result) => {
         if(err) {
             return res.status(400).json({ msg : err })
@@ -169,8 +169,8 @@ router.delete('/delete/:postId', auth, (req, res) => {
 // @access Private
 router.get('/:postId', auth, (req, res) => {
     Post.findById(req.params.postId)
-        .populate('postedBy','_id name username')
-        .populate('comments.postedBy','_id name username')
+        .populate('postedBy','_id name username photo')
+        .populate('comments.postedBy','_id name username photo')
         .then(post => res.json({ post }))
         .catch(err => console.log(err))
 })

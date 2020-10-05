@@ -49,8 +49,8 @@ function UserProfile() {
             axios.put(`/api/users/follow/${userId}`, postBody, config)
                 .then(res => {
                     setUserinfo(res.data.followedUser)
-                    document.querySelector('#follow-btn').classList.remove('disabled')
-                    document.querySelector('#follow-btn').classList.remove('pulse')
+                    // document.querySelector('#follow-btn').classList.remove('disabled')
+                    // document.querySelector('#follow-btn').classList.remove('pulse')
                 })
                 .catch(err => console.log(err))
         
@@ -72,8 +72,8 @@ function UserProfile() {
             axios.put(`/api/users/unfollow/${userId}`, postBody, config)
                 .then(res => {
                     setUserinfo(res.data.unFollowedUser)
-                    document.querySelector('#unFollow-btn').classList.remove('disabled')
-                    document.querySelector('#unFollow-btn').classList.remove('pulse')
+                    // document.querySelector('#unFollow-btn').classList.remove('disabled')
+                    // document.querySelector('#unFollow-btn').classList.remove('pulse')
                 })
                 .catch(err => console.log(err))
         
@@ -84,7 +84,7 @@ function UserProfile() {
             { userInfo && userPosts ?
                 <div className="row profile">
                     <div className="col s12 l3 profile-img">
-                        <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="responsive-img materialboxed circle" />
+                        <img src={userInfo.photo} alt="" className="responsive-img materialboxed circle p-img" />
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>
