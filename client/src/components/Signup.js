@@ -11,12 +11,12 @@ function Signup() {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [profileImage, setProfileImage] = useState({})
+    const [profileImage, setProfileImage] = useState('')
     const [url, setUrl] = useState('')
 
 
-    useEffect( () => {
-        if(url) {
+    useEffect(() => {
+        if (url) {
             console.log(url)
             handleSubmit()
         }
@@ -82,26 +82,31 @@ function Signup() {
     }
 
     const postImage = e => {
-        
+
         e.preventDefault()
 
         document.querySelector('#reg-btn').classList.add('disabled')
         document.querySelector('#reg-btn').classList.add('pulse')
 
-        // Posting the image to the cloudinary
-        const data = new FormData()
+        if (profileImage) {
+            // Posting the image to the cloudinary
+            const data = new FormData()
 
-        data.append("file", profileImage)
-        data.append("upload_preset", 'shutter')
-        data.append("cloud_name", 'shutter-up')
+            data.append("file", profileImage)
+            data.append("upload_preset", 'shutter')
+            data.append("cloud_name", 'shutter-up')
 
-        console.log(data)
-        axios.post('https://api.cloudinary.com/v1_1/shutter-up/image/upload', data)
-            .then(res => {
-                console.log(res.data)
-                setUrl(res.data["secure_url"])
-            })
-            .catch(err => console.log(err))
+            console.log(data)
+            axios.post('https://api.cloudinary.com/v1_1/shutter-up/image/upload', data)
+                .then(res => {
+                    console.log(res.data)
+                    setUrl(res.data["secure_url"])
+                })
+                .catch(err => console.log(err))
+
+        } else {
+            handleSubmit()
+        }
 
 
     }
