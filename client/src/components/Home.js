@@ -209,7 +209,7 @@ function Home() {
                                 }
                                 <div className="user-comment row">
                                     <div className="col s1">
-                                        <img src={state.photo} alt="" className="responsive-img circle avatar" />
+                                        <img src={state.photo} alt="" className="responsive-img circle p-comment" />
                                     </div>
                                     <div className="col s10 offset-s1">
                                         <form onSubmit={makeComment(post._id)}>

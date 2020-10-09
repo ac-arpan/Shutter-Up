@@ -63,6 +63,14 @@ nav {
 .p-img {
   width: 250px !important;
   height: 250px !important;
+  border: 3px solid rgb(255, 27, 65);
+}
+.p-comment {
+  border: 1px solid black !important;
+  height: 45px !important;
+  width: 45px !important;
+  margin-top: 10px !important;
+  margin-left: 4px !important;
 }
 
 @media screen and (max-width:1300px) {
@@ -76,6 +84,10 @@ nav {
   }
   .profile-posts{
     height: 100px !important;
+  }
+  .p-comment {
+    height: 30px !important;
+    width: 30px !important;
   }
 }
 @media screen and (max-width:425px) {

@@ -24,12 +24,26 @@ function Profile() {
             .catch(err => console.log(err))
     }, [])
 
+    const changeProfilePic = e => {
+        e.preventDefault()
+        console.log('Changing DP!')
+    }
     return (
         <div className="container profile-page">
             { userInfo && userPosts ?
                 <div className="row profile">
-                    <div className="col s12 l3 profile-img">
-                        <img src={userInfo.photo} alt="" className="responsive-img materialboxed circle p-img"/>
+                    <div className="col s12 l3 profile-img center">
+                        <img src={userInfo.photo} alt="" className="responsive-img materialboxed circle p-img" />
+                        <div className="file-field input-field">
+                            <div className="btn-small pink waves-effect waves-light">
+                                <i className="material-icons">add</i>
+                                <input type="file" />
+                            </div>
+                            <div className="file-path-wrapper">
+                                <input className="file-path validate" type="text" placeholder="Change Pic" />
+                            </div>
+                        </div>
+                        <div className="btn pink waves-effect waves-light" onClick={changeProfilePic}> Change </div>
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>
@@ -61,7 +75,7 @@ function Profile() {
                     {userPosts &&
                         userPosts.map(post => (
                             <div key={post._id} className="col s4 l4">
-                                <img src={post.photo} alt={post.title} className="profile-posts responsive-img"  />
+                                <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
                             </div>
                         ))
                     }

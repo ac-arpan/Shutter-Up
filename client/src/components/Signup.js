@@ -149,7 +149,7 @@ function Signup() {
                                     <input type="file" onChange={e => setProfileImage(e.target.files[0])} />
                                 </div>
                                 <div className="file-path-wrapper">
-                                    <input className="file-path validate" type="text" />
+                                    <input className="file-path validate" type="text" placeholder="Please try to upload square images height:width = 1:1"/>
                                 </div>
                             </div>
                             <button className="btn pink darken-1 z-depth-1" id="reg-btn">

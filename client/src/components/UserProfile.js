@@ -79,6 +79,7 @@ function UserProfile() {
         
     }
 
+    
     return (
         <div className="container profile-page">
             { userInfo && userPosts ?
