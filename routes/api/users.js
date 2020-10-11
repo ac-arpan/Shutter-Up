@@ -53,6 +53,29 @@ router.post('/', (req, res) => {
         .catch(err => console.log(err))
 })
 
+// @route  PUT /api/users/changePic
+// @desc   Change Profile Pic of the User
+// @access Private
+router.put('/changePic', auth, (req, res) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $set:{photo: req.body.photo}
+    },
+    {
+        new: true
+    })
+    .select('-password')
+    .exec( (err, updatedUser) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+        } else {
+            return res.json({ updatedUser })
+        }
+    })
+})
+
+
+
+
 // @route  PUT /api/users/follow/:userId
 // @desc   Follow a User
 // @access Private

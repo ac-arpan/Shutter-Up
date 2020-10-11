@@ -37,7 +37,7 @@ router.get('/followingPost', auth, (req, res) => {
 router.get('/profile', auth, (req, res) => {
     Post.find({ postedBy: req.user._id })
         .select('-postedBy')
-        .then(posts => res.json({ userId: req.user._id, user:req.user.name, username:req.user.username, followers:req.user.followers, followings:req.user.followings, photo:req.user.photo, posts }))
+        .then(posts => res.json({ _id: req.user._id, name:req.user.name, username:req.user.username, followers:req.user.followers, followings:req.user.followings, photo:req.user.photo, posts }))
         .catch(err => console.log(err))
 })
 

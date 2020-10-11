@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 
 function Profile() {
 
 
+    const { state, dispatch } = useContext(userContext)
     const [userInfo, setUserinfo] = useState(null)
     const [userPosts, setUserPosts] = useState(null)
+    const [profileImage, setProfileImage] = useState('')
+    const [url, setUrl] = useState('')
 
 
     useEffect(() => {
@@ -24,9 +28,63 @@ function Profile() {
             .catch(err => console.log(err))
     }, [])
 
-    const changeProfilePic = e => {
+    useEffect(() => {
+        if (url) {
+            console.log(url)
+            handleSubmit()
+        }
+    }, [url])
+
+    const changeProfilePic =  e => {
         e.preventDefault()
-        console.log('Changing DP!')
+
+        document.querySelector('#change-dp').classList.add('disabled')
+        document.querySelector('#change-dp').classList.add('pulse')
+
+        // Posting the image to the cloudinary
+        const data = new FormData()
+
+        data.append("file", profileImage)
+        data.append("upload_preset", 'shutter')
+        data.append("cloud_name", 'shutter-up')
+
+        console.log(data)
+        axios.post('https://api.cloudinary.com/v1_1/shutter-up/image/upload', data)
+            .then(res => {
+                console.log(res.data)
+                setUrl(res.data["secure_url"])
+            })
+            .catch(err => console.log(err))
+        
+    }
+
+    const handleSubmit = () => {
+        // make a put request to save the updated pic to the db
+        console.log(`Making database request to /api/users/changePic/${userInfo.userId}`)
+        
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        const postBody = JSON.stringify({ photo: url })
+        axios.put('/api/users/changePic', postBody, config)
+                .then(res => {
+                    console.log(res.data)
+                    setUserinfo(res.data.updatedUser)
+                    
+                    dispatch({
+                        type:'UPDATE_DP',
+                        payload:res.data.updatedUser.photo
+                    })
+
+                    document.querySelector('#change-dp').classList.remove('disabled')
+                    document.querySelector('#change-dp').classList.remove('pulse')
+                    document.querySelector('#pic-field').value = null
+                })
+                .catch(err => console.log(err))
+
     }
     return (
         <div className="container profile-page">
@@ -37,17 +95,17 @@ function Profile() {
                         <div className="file-field input-field">
                             <div className="btn-small pink waves-effect waves-light">
                                 <i className="material-icons">add</i>
-                                <input type="file" />
+                                <input type="file" onChange={e => setProfileImage(e.target.files[0])}/>
                             </div>
                             <div className="file-path-wrapper">
-                                <input className="file-path validate" type="text" placeholder="Change Pic" />
+                                <input id="pic-field" className="file-path validate" type="text" placeholder="Change Pic" />
                             </div>
                         </div>
-                        <div className="btn pink waves-effect waves-light" onClick={changeProfilePic}> Change </div>
+                        <div id="change-dp" className="btn pink waves-effect waves-light" onClick={changeProfilePic}> Change </div>
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>
-                            <h4>{userInfo['user'] && userInfo.user.split(' ')[0]} <span className="pink-text">{userInfo['user'] && userInfo.user.split(' ')[1]}</span></h4>
+                            <h4>{userInfo['name'] && userInfo.name.split(' ')[0]} <span className="pink-text">{userInfo['name'] && userInfo.name.split(' ')[1]}</span></h4>
                         </blockquote>
                         <h5>{userInfo.username}</h5>
                         <div className="row">
