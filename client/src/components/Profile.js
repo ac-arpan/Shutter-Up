@@ -8,7 +8,7 @@ function Profile() {
     const { state, dispatch } = useContext(userContext)
     const [userInfo, setUserinfo] = useState(null)
     const [userPosts, setUserPosts] = useState(null)
-    const [profileImage, setProfileImage] = useState('')
+    const [profileImage, setProfileImage] = useState(null)
     const [url, setUrl] = useState('')
 
 
@@ -35,8 +35,14 @@ function Profile() {
         }
     }, [url])
 
-    const changeProfilePic =  e => {
-        e.preventDefault()
+    useEffect(() => {
+        if(profileImage) {
+            changeProfilePic()
+        }
+    }, [profileImage])
+
+    const changeProfilePic = () => {
+        // e.preventDefault()
 
         document.querySelector('#change-dp').classList.add('disabled')
         document.querySelector('#change-dp').classList.add('pulse')
@@ -91,17 +97,17 @@ function Profile() {
             { userInfo && userPosts ?
                 <div className="row profile">
                     <div className="col s12 l3 profile-img center">
-                        <img src={userInfo.photo} alt="" className="responsive-img materialboxed circle p-img" />
-                        <div className="file-field input-field">
-                            <div className="btn-small pink waves-effect waves-light">
+                        <img src={userInfo.photo} alt="" className="responsive-img circle p-img" />
+                        <div className="file-field input-field parent-file ">
+                            <div className="btn-small pink waves-effect waves-light" id="change-dp">
                                 <i className="material-icons">add</i>
                                 <input type="file" onChange={e => setProfileImage(e.target.files[0])}/>
                             </div>
-                            <div className="file-path-wrapper">
+                            <div className="file-path-wrapper" style={{display:"none"}}>
                                 <input id="pic-field" className="file-path validate" type="text" placeholder="Change Pic" />
                             </div>
                         </div>
-                        <div id="change-dp" className="btn pink waves-effect waves-light" onClick={changeProfilePic}> Change </div>
+                        {/* <div id="change-dp" className="btn pink waves-effect waves-light" onClick={changeProfilePic}> Change </div> */}
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>

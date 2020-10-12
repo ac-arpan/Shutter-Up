@@ -73,6 +73,18 @@ nav {
   margin-left: 4px !important;
 }
 
+.parent-file{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+#change-dp{
+  margin-top: -2.5rem !important;
+  border-radius: 25% !important;
+  float: none !important;
+  height: 2.3rem !important;
+  line-height: 2.3rem !important;
+}
+
 @media screen and (max-width:1300px) {
   .profile-posts{
     height: 150px !important;
@@ -177,3 +189,4 @@ color: rgb(255, 27, 65) !important;
     padding: 0px 10px !important;
   }
 }
+
