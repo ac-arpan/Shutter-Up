@@ -30,6 +30,17 @@ router.get('/followingPost', auth, (req, res) => {
         .catch(err => console.log(err))
 })
 
+// @route  GET /api/posts/userPostList/:userId
+// @desc   Get all the Posts of a User in a list format
+// @access Private
+router.get('/userPostList/:userId', auth, (req, res) => {
+    Post.find({ postedBy : req.params.userId })
+        .populate('postedBy','_id name username photo')
+        .populate('comments.postedBy','_id name username photo')
+        .then(posts => res.json({ posts }))
+        .catch(err => console.log(err))
+})
+
 
 // @route  GET /api/posts/profile
 // @desc   Profile Page of User

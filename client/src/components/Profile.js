@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 function Profile() {
@@ -115,10 +116,10 @@ function Profile() {
                         </blockquote>
                         <h5>{userInfo.username}</h5>
                         <div className="row">
-                            <div className="col s4">
+                            <Link to={`/userPostList/${userInfo._id}`}><div className="col s4">
                                 <h4>{userPosts.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
-                            </div>
+                            </div></Link>
                             <div className="col s4">
                                 <h4>{userInfo.followers.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Follower</p>
