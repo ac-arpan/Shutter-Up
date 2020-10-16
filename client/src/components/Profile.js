@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import M from 'materialize-css'
 
 function Profile() {
 
@@ -14,6 +15,9 @@ function Profile() {
 
 
     useEffect(() => {
+
+        let tabs = document.querySelectorAll('.tabs')
+        M.Tabs.init(tabs)
 
         const config = {
             headers: {
@@ -37,7 +41,7 @@ function Profile() {
     }, [url])
 
     useEffect(() => {
-        if(profileImage) {
+        if (profileImage) {
             changeProfilePic()
         }
     }, [profileImage])
@@ -62,13 +66,13 @@ function Profile() {
                 setUrl(res.data["secure_url"])
             })
             .catch(err => console.log(err))
-        
+
     }
 
     const handleSubmit = () => {
         // make a put request to save the updated pic to the db
         console.log(`Making database request to /api/users/changePic/${userInfo.userId}`)
-        
+
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -77,20 +81,20 @@ function Profile() {
         }
         const postBody = JSON.stringify({ photo: url })
         axios.put('/api/users/changePic', postBody, config)
-                .then(res => {
-                    console.log(res.data)
-                    setUserinfo(res.data.updatedUser)
-                    
-                    dispatch({
-                        type:'UPDATE_DP',
-                        payload:res.data.updatedUser.photo
-                    })
+            .then(res => {
+                console.log(res.data)
+                setUserinfo(res.data.updatedUser)
 
-                    document.querySelector('#change-dp').classList.remove('disabled')
-                    document.querySelector('#change-dp').classList.remove('pulse')
-                    document.querySelector('#pic-field').value = null
+                dispatch({
+                    type: 'UPDATE_DP',
+                    payload: res.data.updatedUser.photo
                 })
-                .catch(err => console.log(err))
+
+                document.querySelector('#change-dp').classList.remove('disabled')
+                document.querySelector('#change-dp').classList.remove('pulse')
+                document.querySelector('#pic-field').value = null
+            })
+            .catch(err => console.log(err))
 
     }
     return (
@@ -102,9 +106,9 @@ function Profile() {
                         <div className="file-field input-field parent-file ">
                             <div className="btn-small pink waves-effect waves-light" id="change-dp">
                                 <i className="material-icons">add</i>
-                                <input type="file" onChange={e => setProfileImage(e.target.files[0])}/>
+                                <input type="file" onChange={e => setProfileImage(e.target.files[0])} />
                             </div>
-                            <div className="file-path-wrapper" style={{display:"none"}}>
+                            <div className="file-path-wrapper" style={{ display: "none" }}>
                                 <input id="pic-field" className="file-path validate" type="text" placeholder="Change Pic" />
                             </div>
                         </div>
@@ -117,7 +121,7 @@ function Profile() {
                         <h5>{userInfo.username}</h5>
                         <div className="row">
                             <Link to={`/userPostList/${userInfo._id}`}><div className="col s4">
-                                <h4>{userPosts.length}</h4>
+                                <h4 style={{ color: 'black' }}>{userPosts.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
                             </div></Link>
                             <div className="col s4">
@@ -135,16 +139,28 @@ function Profile() {
             <div className="edit">
                 <p className="flow-text center">Edit Profile</p>
             </div>
-            <div className="gallery">
-                <div className="row">
-                    {userPosts &&
-                        userPosts.map(post => (
-                            <div key={post._id} className="col s4 l4">
-                                <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
-                            </div>
-                        ))
-                    }
+
+            <div className="row">
+                <div className="col s12">
+                    <ul className="tabs">
+                        <li className="tab col s6"><a className="active" href="#test1"><i className="material-icons pink-text text-darken-1">collections</i></a></li>
+                        <li className="tab col s6"><a href="#test2"><i className="material-icons pink-text text-darken-1">bookmark</i></a></li>
+                    </ul>
                 </div>
+                <div id="test1" className="col s12">
+                    <div className="gallery">
+                        <div className="row">
+                            {userPosts &&
+                                userPosts.map(post => (
+                                    <div key={post._id} className="col s4 l4">
+                                        <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="test2" className="col s12">All the saved Items will be shown here</div>
             </div>
         </div>
     )

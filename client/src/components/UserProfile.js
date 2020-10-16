@@ -16,6 +16,10 @@ function UserProfile() {
 
     useEffect(() => {
 
+        let tabs = document.querySelectorAll('.tabs')
+        M.Tabs.init(tabs)
+
+
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -46,14 +50,14 @@ function UserProfile() {
         }
         const postBody = JSON.stringify({})
 
-            axios.put(`/api/users/follow/${userId}`, postBody, config)
-                .then(res => {
-                    setUserinfo(res.data.followedUser)
-                    // document.querySelector('#follow-btn').classList.remove('disabled')
-                    // document.querySelector('#follow-btn').classList.remove('pulse')
-                })
-                .catch(err => console.log(err))
-        
+        axios.put(`/api/users/follow/${userId}`, postBody, config)
+            .then(res => {
+                setUserinfo(res.data.followedUser)
+                // document.querySelector('#follow-btn').classList.remove('disabled')
+                // document.querySelector('#follow-btn').classList.remove('pulse')
+            })
+            .catch(err => console.log(err))
+
     }
 
     const unFollowUser = userId => e => {
@@ -69,23 +73,23 @@ function UserProfile() {
         }
         const postBody = JSON.stringify({})
 
-            axios.put(`/api/users/unfollow/${userId}`, postBody, config)
-                .then(res => {
-                    setUserinfo(res.data.unFollowedUser)
-                    // document.querySelector('#unFollow-btn').classList.remove('disabled')
-                    // document.querySelector('#unFollow-btn').classList.remove('pulse')
-                })
-                .catch(err => console.log(err))
-        
+        axios.put(`/api/users/unfollow/${userId}`, postBody, config)
+            .then(res => {
+                setUserinfo(res.data.unFollowedUser)
+                // document.querySelector('#unFollow-btn').classList.remove('disabled')
+                // document.querySelector('#unFollow-btn').classList.remove('pulse')
+            })
+            .catch(err => console.log(err))
+
     }
 
-    
+
     return (
         <div className="container profile-page">
             { userInfo && userPosts ?
                 <div className="row profile">
                     <div className="col s12 l3 profile-img">
-                        <img src={userInfo.photo} alt="" className="responsive-img materialboxed circle p-img" />
+                        <img src={userInfo.photo} alt="" className="responsive-img circle p-img" />
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">
                         <blockquote>
@@ -94,7 +98,7 @@ function UserProfile() {
                         <h5>{userInfo.username}</h5>
                         <div className="row">
                             <Link to={`/userPostList/${userInfo._id}`}><div className="col s4">
-                                <h4>{userPosts.length}</h4>
+                                <h4 style={{ color: 'black' }}>{userPosts.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
                             </div></Link>
                             <div className="col s4">
@@ -109,10 +113,10 @@ function UserProfile() {
                         <div className="row">
                             <div className="col s4">
                                 {
-                                    userInfo.followers.includes(state.id) 
-                                        ? 
+                                    userInfo.followers.includes(state.id)
+                                        ?
                                         <button id="unFollow-btn" className="btn pink waves-effect waves-light  sp-btn" onClick={unFollowUser(userInfo._id)}>Unfollow</button>
-                                        : 
+                                        :
                                         <button id="follow-btn" className="btn pink waves-effect waves-light sp-btn" onClick={followUser(userInfo._id)}>Follow</button>
                                 }
                             </div>
@@ -123,7 +127,7 @@ function UserProfile() {
                                 {/* <a className="btn pink waves-effect waves-light sp-btn"
                                 onClick={() => M.toast({ html: `<h4><a href="https://mail.google.com/mail/?view=cm&fs=1&to=someone@example.com&su=SUBJECT&body=BODY" target="_blank"> ${userInfo.email}</a></h4>`, classes: '#e91e63 pink' })}>Email</a> */}
                                 <a className="btn pink waves-effect waves-light sp-btn"
-                                onClick={() => M.toast({ html: `${userInfo.email}`, classes: '#e91e63 pink' })}>Email</a>
+                                    onClick={() => M.toast({ html: `${userInfo.email}`, classes: '#e91e63 pink' })}>Email</a>
                             </div>
                         </div>
                     </div>
@@ -132,17 +136,30 @@ function UserProfile() {
             <div className="edit">
                 <p className="flow-text center">Edit Profile</p>
             </div>
-            <div className="gallery">
-                <div className="row">
-                    {userPosts &&
-                        userPosts.map(post => (
-                            <div key={post._id} className="col s4 l4">
-                                <img src={post.photo} alt={post.title} className="profile-posts responsive-img"  />
-                            </div>
-                        ))
-                    }
+
+            <div className="row">
+                <div className="col s12">
+                    <ul className="tabs">
+                        <li className="tab col s6"><a className="active" href="#test1"><i className="material-icons pink-text text-darken-1">collections</i></a></li>
+                        <li className="tab col s6"><a href="#test2"><i className="material-icons pink-text text-darken-1">bookmark</i></a></li>
+                    </ul>
                 </div>
+                <div id="test1" className="col s12">
+                    <div className="gallery">
+                        <div className="row">
+                            {userPosts &&
+                                userPosts.map(post => (
+                                    <div key={post._id} className="col s4 l4">
+                                        <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="test2" className="col s12">All the saved Items will be shown here</div>
             </div>
+
         </div>
     )
 }

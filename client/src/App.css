@@ -53,6 +53,9 @@ nav {
   background-color: rgb(255, 246, 248);
   cursor: pointer;
 }
+.gallery {
+  margin-top: 1rem !important;
+}
 .gallery .col {
   margin-bottom: 10px !important;
 }
