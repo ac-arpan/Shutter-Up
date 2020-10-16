@@ -90,6 +90,10 @@ function Profile() {
                     payload: res.data.updatedUser.photo
                 })
 
+                let user = JSON.parse(localStorage.getItem('user'))
+                user.photo = res.data.updatedUser.photo
+                localStorage.setItem('user', JSON.stringify(user))
+
                 document.querySelector('#change-dp').classList.remove('disabled')
                 document.querySelector('#change-dp').classList.remove('pulse')
                 document.querySelector('#pic-field').value = null
