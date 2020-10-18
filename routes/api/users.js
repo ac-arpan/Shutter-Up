@@ -53,6 +53,7 @@ router.post('/', (req, res) => {
         .catch(err => console.log(err))
 })
 
+
 // @route  PUT /api/users/changePic
 // @desc   Change Profile Pic of the User
 // @access Private
@@ -72,7 +73,6 @@ router.put('/changePic', auth, (req, res) => {
         }
     })
 })
-
 
 
 
@@ -112,6 +112,7 @@ router.put('/follow/:userId', auth, (req, res) => {
     })
 })
 
+
 // @route  PUT /api/users/unfollow/:userId
 // @desc   unfollow a User
 // @access Private
@@ -148,30 +149,24 @@ router.put('/unfollow/:userId', auth, (req, res) => {
     })
 })
 
-
-// @route  PUT /api/users/bookmark/:postId
-// @desc   Bookmark the Post
+// @route  GET /api/users/bookmarked
+// @desc   Get the bookmarked post of the Logged in User
 // @access Private
-router.put('/bookmark/:postId', auth, (req, res) => {
-    User.findByIdAndUpdate(req.user._id, {
-        $push:{bookmarks: req.params.postId}
-    },
-    {
-        new: true
-    }
-    )
-    .select('-password')
-    .populate('bookmarks', '_id photo likes comments')
-    .exec((err, user) => {
-        if(err) {
-            return res.status(400).json({ msg : err })
-             
-        } else {
-            return res.json({ user })
-        }
-    })
+router.get('/bookmarked', auth, (req, res) => {
+    Post.find({})
+        .populate('postedBy','_id name username photo')
+        .populate('comments.postedBy','_id name username photo')
+        .then(posts => {
+            let bookmarkedPost = []
+            posts.forEach(post => {
+                if(post.bookmarks.includes(req.user._id)) {
+                    bookmarkedPost.push(post.photo)
+                }
+            })
+            res.json({ bookmarkedPost })
+        })
+        .catch(err => console.log(err))
 })
-
 
 // @route  GET /api/users/:userId
 // @desc   Get a single user

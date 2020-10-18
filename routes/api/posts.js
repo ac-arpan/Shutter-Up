@@ -120,6 +120,29 @@ router.put('/dislike/:postId', auth, (req, res) => {
     })
 })
 
+// @route  PUT /api/posts/bookmark/:postId
+// @desc   Bookmark the Post
+// @access Private
+router.put('/bookmark/:postId', auth, (req, res) => {
+    Post.findByIdAndUpdate(req.params.postId, {
+        $push:{bookmarks: req.user._id}
+    },
+    {
+        new: true
+    }
+    )
+    .populate('postedBy','_id name username photo')
+    .populate('comments.postedBy','_id name username photo')
+    .exec((err, post) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json({ post })
+        }
+    })
+})
+
 // @route  PUT /api/posts/comment/:postId
 // @desc   Comment on a Post
 // @access Private

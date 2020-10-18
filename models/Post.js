@@ -21,6 +21,12 @@ const postSchema = new Schema({
             ref: "User"
         }
     ],
+    bookmarks: [
+        {
+            type: ObjectId,
+            ref: "User"
+        }
+    ],
     comments: [
         {
             text: String,
