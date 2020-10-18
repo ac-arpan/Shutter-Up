@@ -120,7 +120,6 @@ router.put('/dislike/:postId', auth, (req, res) => {
     })
 })
 
-
 // @route  PUT /api/posts/comment/:postId
 // @desc   Comment on a Post
 // @access Private

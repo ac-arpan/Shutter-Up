@@ -148,6 +148,31 @@ router.put('/unfollow/:userId', auth, (req, res) => {
     })
 })
 
+
+// @route  PUT /api/users/bookmark/:postId
+// @desc   Bookmark the Post
+// @access Private
+router.put('/bookmark/:postId', auth, (req, res) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $push:{bookmarks: req.params.postId}
+    },
+    {
+        new: true
+    }
+    )
+    .select('-password')
+    .populate('bookmarks', '_id photo likes comments')
+    .exec((err, user) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json({ user })
+        }
+    })
+})
+
+
 // @route  GET /api/users/:userId
 // @desc   Get a single user
 // @access Private

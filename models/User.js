@@ -31,6 +31,12 @@ const userSchema = new Schema({
             ref: 'User'
         }
     ],
+    bookmarks: [
+        {
+            type: ObjectId,
+            ref: 'Post'
+        }
+    ],
     photo: {
         type: String,
         required: true
