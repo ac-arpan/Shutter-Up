@@ -12,6 +12,7 @@ function Profile() {
     const [userPosts, setUserPosts] = useState(null)
     const [profileImage, setProfileImage] = useState(null)
     const [url, setUrl] = useState('')
+    const [bookmarkedPost, setBookmarkedPost] = useState(null)
 
 
     useEffect(() => {
@@ -29,6 +30,7 @@ function Profile() {
             .then(res => {
                 setUserinfo(res.data)
                 setUserPosts(res.data.posts)
+                getBookmarked()
             })
             .catch(err => console.log(err))
     }, [])
@@ -45,6 +47,23 @@ function Profile() {
             changeProfilePic()
         }
     }, [profileImage])
+
+    const getBookmarked = () => {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+
+        axios.get('/api/users/bookmarked', config)
+            .then(res => {
+                console.log(res.data)
+                setBookmarkedPost(res.data.bookmarkedPost)
+            })
+            .catch(err => console.log(err))
+    }
 
     const changeProfilePic = () => {
         // e.preventDefault()
@@ -164,7 +183,22 @@ function Profile() {
                         </div>
                     </div>
                 </div>
-                <div id="test2" className="col s12">All the saved Items will be shown here</div>
+                <div id="test2" className="col s12">
+                    {bookmarkedPost ?
+                        bookmarkedPost.length > 0 ? 
+                            <div className="gallery">
+                                <div className="row">
+                                    {
+                                        bookmarkedPost.map(post => (
+                                            <div  key={post[0]} className="col s4 l4">
+                                                <img src={post[1]} alt='Bookmarked Post' className="profile-posts responsive-img" />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </div> : <div className="center">You don't have any bookmarked post!</div> 
+                        : null}
+                </div>
             </div>
         </div>
     )

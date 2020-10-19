@@ -137,27 +137,16 @@ function UserProfile() {
                 <p className="flow-text center">Edit Profile</p>
             </div>
 
-            <div className="row">
-                <div className="col s12">
-                    <ul className="tabs">
-                        <li className="tab col s6"><a className="active" href="#test1"><i className="material-icons pink-text text-darken-1">collections</i></a></li>
-                        <li className="tab col s6"><a href="#test2"><i className="material-icons pink-text text-darken-1">bookmark</i></a></li>
-                    </ul>
+            <div className="gallery">
+                <div className="row">
+                    {userPosts &&
+                        userPosts.map(post => (
+                            <div key={post._id} className="col s4 l4">
+                                <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
+                            </div>
+                        ))
+                    }
                 </div>
-                <div id="test1" className="col s12">
-                    <div className="gallery">
-                        <div className="row">
-                            {userPosts &&
-                                userPosts.map(post => (
-                                    <div key={post._id} className="col s4 l4">
-                                        <img src={post.photo} alt={post.title} className="profile-posts responsive-img" />
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div id="test2" className="col s12">All the saved Items will be shown here</div>
             </div>
 
         </div>

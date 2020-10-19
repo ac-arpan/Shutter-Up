@@ -160,7 +160,7 @@ router.get('/bookmarked', auth, (req, res) => {
             let bookmarkedPost = []
             posts.forEach(post => {
                 if(post.bookmarks.includes(req.user._id)) {
-                    bookmarkedPost.push(post.photo)
+                    bookmarkedPost.push([post._id, post.photo])
                 }
             })
             res.json({ bookmarkedPost })
