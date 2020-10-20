@@ -138,7 +138,7 @@ router.put('/bookmark/:postId', auth, (req, res) => {
             return res.status(400).json({ msg : err })
              
         } else {
-            return res.json({ post })
+            return res.json(post)
         }
     })
 })
