@@ -143,6 +143,29 @@ router.put('/bookmark/:postId', auth, (req, res) => {
     })
 })
 
+// @route  PUT /api/posts/removeBookmark/:postId
+// @desc   Remove Bookmark from a Post
+// @access Private
+router.put('/removeBookmark/:postId', auth, (req, res) => {
+    Post.findByIdAndUpdate(req.params.postId, {
+        $pull:{bookmarks: req.user._id}
+    },
+    {
+        new: true
+    }
+    )
+    .populate('postedBy','_id name username photo')
+    .populate('comments.postedBy','_id name username photo')
+    .exec((err, post) => {
+        if(err) {
+            return res.status(400).json({ msg : err })
+             
+        } else {
+            return res.json(post)
+        }
+    })
+})
+
 // @route  PUT /api/posts/comment/:postId
 // @desc   Comment on a Post
 // @access Private

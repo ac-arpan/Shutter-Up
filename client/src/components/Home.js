@@ -120,7 +120,7 @@ function Home() {
                 .catch(err => console.log(err))
         } else {
 
-            document.getElementById(`${postId}`).querySelector('.#bookmark').classList.add('disabled')
+            document.getElementById(`${postId}`).querySelector('#bookmark').classList.add('disabled')
             // unliking a post
             e.target.textContent = e.target.textContent + '_border'
             axios.put(`/api/posts/removeBookmark/${postId}`, postBody, config)
