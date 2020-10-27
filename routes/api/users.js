@@ -3,13 +3,21 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const auth = require('../../middleware/auth')
+const config = require('config')
+
+const nodemailer = require('nodemailer')
+const sendgridTransport = require('nodemailer-sendgrid-transport')
 
 // User Model
 const User = require('../../models/User')
 // Post Model
 const Post = require('../../models/Post')
 
-
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: config.get('mailAPI')
+    }
+}))
 
 // @route  POST /api/users
 // @desc   Register New User
@@ -19,15 +27,15 @@ router.post('/', (req, res) => {
     const { name, username, email, password, photo } = req.body
 
     // Validation
-    if(!email || !username || !name || !password) {
-        return res.status(400).json({ msg: "Please enter all the field!"})
+    if (!email || !username || !name || !password) {
+        return res.status(400).json({ msg: "Please enter all the field!" })
     }
 
     // Find if user exist with this email
     User.findOne({ email: email })
         .then(user => {
-            if(user) {
-                return res.status(400).json({ msg: "User already exist with this email!"})
+            if (user) {
+                return res.status(400).json({ msg: "User already exist with this email!" })
             }
             else {
                 // Hash the password and save the user
@@ -40,11 +48,21 @@ router.post('/', (req, res) => {
                             password: hashedPassword,
                             photo
                         })
-        
+
                         user.save()
-                            .then(user => res.json({
-                                user: { id: user._id, name: user.name, username: user.username, email: user.email }
-                            }))
+                            .then(user => {
+                                res.json({
+                                    user: { id: user._id, name: user.name, username: user.username, email: user.email }
+                                })
+                                transporter.sendMail({
+                                    to: user.email,
+                                    from: 'arpanchowdhury050@gmail.com',
+                                    subject: 'SIGN-UP Success',
+                                    html: '<h1>Welcome to Shutter-Up</h1>'
+                                })
+                                .then(() => console.log('mail-sent'))
+                                .catch(err => console.log(err))
+                            })
                             .catch(err => console.log(err))
                     })
                     .catch(err => console.log(err))
@@ -59,19 +77,19 @@ router.post('/', (req, res) => {
 // @access Private
 router.put('/changePic', auth, (req, res) => {
     User.findByIdAndUpdate(req.user._id, {
-        $set:{photo: req.body.photo}
+        $set: { photo: req.body.photo }
     },
-    {
-        new: true
-    })
-    .select('-password')
-    .exec( (err, updatedUser) => {
-        if(err) {
-            return res.status(400).json({ msg : err })
-        } else {
-            return res.json({ updatedUser })
-        }
-    })
+        {
+            new: true
+        })
+        .select('-password')
+        .exec((err, updatedUser) => {
+            if (err) {
+                return res.status(400).json({ msg: err })
+            } else {
+                return res.json({ updatedUser })
+            }
+        })
 })
 
 
@@ -81,35 +99,35 @@ router.put('/changePic', auth, (req, res) => {
 // @access Private
 router.put('/follow/:userId', auth, (req, res) => {
     User.findByIdAndUpdate(req.params.userId, {
-        $push:{followers: req.user._id}
+        $push: { followers: req.user._id }
     },
-    {
-        new: true
-    }
-    )
-    .select('-password')
-    .exec((err, followedUser) => {
-        if(err) {
-            return res.status(400).json({ msg : err })
-             
-        } else {
-            User.findByIdAndUpdate(req.user._id, {
-                $push: {followings: req.params.userId}
-            },
-            {
-                new: true
-            }
-            )
-            .select('-password')
-            .exec((err, followingUser) => {
-                if(err) {
-                    return res.status(400).json({ msg : err })
-                } else {
-                    return res.json({ followedUser, followingUser })
-                }
-            })
+        {
+            new: true
         }
-    })
+    )
+        .select('-password')
+        .exec((err, followedUser) => {
+            if (err) {
+                return res.status(400).json({ msg: err })
+
+            } else {
+                User.findByIdAndUpdate(req.user._id, {
+                    $push: { followings: req.params.userId }
+                },
+                    {
+                        new: true
+                    }
+                )
+                    .select('-password')
+                    .exec((err, followingUser) => {
+                        if (err) {
+                            return res.status(400).json({ msg: err })
+                        } else {
+                            return res.json({ followedUser, followingUser })
+                        }
+                    })
+            }
+        })
 })
 
 
@@ -118,35 +136,35 @@ router.put('/follow/:userId', auth, (req, res) => {
 // @access Private
 router.put('/unfollow/:userId', auth, (req, res) => {
     User.findByIdAndUpdate(req.params.userId, {
-        $pull:{followers: req.user._id}
+        $pull: { followers: req.user._id }
     },
-    {
-        new: true
-    }
-    )
-    .select('-password')
-    .exec((err, unFollowedUser) => {
-        if(err) {
-            return res.status(400).json({ msg : err })
-             
-        } else {
-            User.findByIdAndUpdate(req.user._id, {
-                $pull: {followings: req.params.userId}
-            },
-            {
-                new: true
-            }
-            )
-            .select('-password')
-            .exec((err, unFollowingUser) => {
-                if(err) {
-                    return res.status(400).json({ msg : err })
-                } else {
-                    return res.json({ unFollowedUser, unFollowingUser })
-                }
-            })
+        {
+            new: true
         }
-    })
+    )
+        .select('-password')
+        .exec((err, unFollowedUser) => {
+            if (err) {
+                return res.status(400).json({ msg: err })
+
+            } else {
+                User.findByIdAndUpdate(req.user._id, {
+                    $pull: { followings: req.params.userId }
+                },
+                    {
+                        new: true
+                    }
+                )
+                    .select('-password')
+                    .exec((err, unFollowingUser) => {
+                        if (err) {
+                            return res.status(400).json({ msg: err })
+                        } else {
+                            return res.json({ unFollowedUser, unFollowingUser })
+                        }
+                    })
+            }
+        })
 })
 
 // @route  GET /api/users/bookmarked
@@ -154,12 +172,12 @@ router.put('/unfollow/:userId', auth, (req, res) => {
 // @access Private
 router.get('/bookmarked', auth, (req, res) => {
     Post.find({})
-        .populate('postedBy','_id name username photo')
-        .populate('comments.postedBy','_id name username photo')
+        .populate('postedBy', '_id name username photo')
+        .populate('comments.postedBy', '_id name username photo')
         .then(posts => {
             let bookmarkedPost = []
             posts.forEach(post => {
-                if(post.bookmarks.includes(req.user._id)) {
+                if (post.bookmarks.includes(req.user._id)) {
                     bookmarkedPost.push([post._id, post.photo])
                 }
             })
@@ -176,12 +194,12 @@ router.get('/:userId', auth, (req, res) => {
         .select('-password')
         .then(user => {
             Post.find({ postedBy: req.params.userId })
-            .then(posts => {
-                res.json({ user: user, posts: posts})
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                .then(posts => {
+                    res.json({ user: user, posts: posts })
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         })
         .catch(err => {
             return res.status(400).json({ msg: err })
