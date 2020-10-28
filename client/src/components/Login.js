@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import logo from './shutterUp.svg'
 import axios from 'axios'
 import M from "materialize-css";
@@ -19,6 +19,13 @@ function Login() {
         M.Modal.getInstance(signInModal).close()
         M.Modal.getInstance(signUpModal).open()
     }
+
+    const closeSignIn = () => {
+        let signInModal = document.querySelector('#modal-login')
+
+        M.Modal.getInstance(signInModal).close()
+    }
+    
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -87,8 +94,10 @@ function Login() {
                             </button>
                             <div id="signup" href="#" className="center pink-text" onClick={openSignUp}>
                                 Didn't have an account ? SignUp
-                        </div>
-                            <p className="error pink-text center-align"></p>
+                            </div>
+                            <div className="center" style={{marginTop:'10px'}}>
+                                <Link to="resetPassword" className="error red-text" onClick={closeSignIn}>Forgot Password ? Reset Here</Link>
+                            </div>
                         </form>
                     </div>
                 </div>

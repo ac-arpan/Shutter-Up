@@ -13,6 +13,7 @@ import CreatePost from './components/CreatePost';
 import Index from './components/Index';
 import SubscribedPosts from './components/SubscribedPosts';
 import UserPostList from './components/UserPostList';
+import ResetPassword from './components/ResetPassword';
 
 
 
@@ -49,6 +50,7 @@ const Routing = () => {
       <Route path="/profile" exact component={Profile} />
       <Route path="/profile/:userId"  component={UserProfile} />
       <Route path="/create" exact component={CreatePost} />
+      <Route path="/resetPassword" exact component={ResetPassword} />
     </Switch>
   )
 }

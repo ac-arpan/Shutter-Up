@@ -34,6 +34,12 @@ const userSchema = new Schema({
     photo: {
         type: String,
         required: true
+    },
+    resetToken: {
+        type: String
+    },
+    expireToken: {
+        type: Date
     }
 })
 
