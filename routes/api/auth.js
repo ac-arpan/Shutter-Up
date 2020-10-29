@@ -88,7 +88,7 @@ router.post('/resetPassword', (req, res) => {
                             .then(() => console.log('mail-sent'))
                             .catch(err => console.log(err))
 
-                            res.json({ msg: 'Please check mail'}) 
+                            res.json({ msg: 'A password reset link has been sent to your registered mail id. Please reset the password within one hour.' }) 
                         })
                 })
                 .catch(err => console.log(err))

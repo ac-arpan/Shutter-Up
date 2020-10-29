@@ -37,7 +37,12 @@ const Routing = () => {
       }
       history.push(history.location.pathname)
     } else {
-      history.push('/index')
+      if(history.location.pathname.startsWith('resetPassword')) {
+        console.log(history.location.pathname)
+      }
+      else {
+        history.push('/index')
+      }
     }
   }, [])
 
