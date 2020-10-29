@@ -14,6 +14,7 @@ import Index from './components/Index';
 import SubscribedPosts from './components/SubscribedPosts';
 import UserPostList from './components/UserPostList';
 import ResetPassword from './components/ResetPassword';
+import ChangePassword from './components/ChangePassword';
 
 
 
@@ -37,11 +38,12 @@ const Routing = () => {
       }
       history.push(history.location.pathname)
     } else {
-      if(history.location.pathname.startsWith('resetPassword')) {
-        console.log(history.location.pathname)
+      if(history.location.pathname.startsWith('/resetPassword')) {
+        // console.log(history.location.pathname)
       }
       else {
         history.push('/index')
+        // console.log(history.location.pathname)
       }
     }
   }, [])
@@ -56,6 +58,7 @@ const Routing = () => {
       <Route path="/profile/:userId"  component={UserProfile} />
       <Route path="/create" exact component={CreatePost} />
       <Route path="/resetPassword" exact component={ResetPassword} />
+      <Route path="/resetPassword/:token" component={ChangePassword} />
     </Switch>
   )
 }

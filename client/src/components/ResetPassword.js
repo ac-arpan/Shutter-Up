@@ -26,8 +26,6 @@ const ResetPassword = () => {
                 // setEmail('')
                 setReply(res.data.msg)
                 
-                localStorage.setItem('resetToken', res.data.resetToken)
-
                 document.querySelector('#mail-send').classList.remove('disabled')
                 document.querySelector('#mail-send').classList.remove('pulse')
             })

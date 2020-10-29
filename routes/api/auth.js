@@ -17,6 +17,7 @@ const transporter = nodemailer.createTransport(sendgridTransport({
 
 // User Model
 const User = require('../../models/User')
+const { has } = require('config')
 
 // Our jwtSecret
 const JWT_SECRET = config.get('jwtSecret')
@@ -96,6 +97,36 @@ router.post('/resetPassword', (req, res) => {
     })
 })
 
+
+// @route  POST /api/auth/changePassword
+// @desc   Cgange the Password  of a User
+// @access Public
+router.post('/changePassword', (req, res) => {
+    const password = req.body.password
+    const token = req.body.token
+
+    User.findOne({ resetToken: token, expireToken: {$gt:Date.now()}})
+        .then(user => {
+            if(!user) {
+                return res.status(400).json({ msg: "Password Reset Link Expired!Please Try again!"})
+            }
+            bcrypt.hash(password, 12)
+                    .then(hashedPassword => {
+                        user.password = hashedPassword
+                        user.resetToken = undefined
+                        user.expireToken = undefined
+
+                        user.save()
+                            .then(updatedUser => res.json({ msg: 'Password Changed!'}))
+                            .catch(err => {
+                                console.log(err)
+                                // res.json({ msg: err })
+                            })
+                    })
+                    .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+} )
 
 // testing a protected route
 router.get('/protected', auth,  (req, res) => {
