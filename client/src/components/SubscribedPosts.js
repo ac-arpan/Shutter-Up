@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 function SubscribedPosts() {
 
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState(null)
     // console.log(posts)
     const [comment, setComment] = useState('')
     const [openedPost, setOpenedPost] = useState('')
@@ -205,92 +205,96 @@ function SubscribedPosts() {
         <div className="home">
             <div className="row">
 
-                {posts.length > 0 ? posts.map(post => (
-                    <div key={post._id} className="col s12 l6 offset-l3" id={post._id} >
-                        <div className="card">
-                            <ul className="collection">
-                                <li className="collection-item avatar">
-                                    <img src={post.postedBy.photo} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
-                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color:'black' }}>{post.postedBy.username}</span></Link>
-                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
+                {posts ?
+                    posts.length > 0 ?
+                        posts.map(post => (
+                            <div key={post._id} className="col s12 l6 offset-l3" id={post._id} >
+                                <div className="card">
+                                    <ul className="collection">
+                                        <li className="collection-item avatar">
+                                            <img src={post.postedBy.photo} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
+                                            <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'black' }}>{post.postedBy.username}</span></Link>
+                                            <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
 
-                                    <a href="#!" id="bookmark" className="btn-floating pink lighten-5 right z-depth-0">
-                                        <i  className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
-                                    </a>
+                                            <a href="#!" id="bookmark" className="btn-floating pink lighten-5 right z-depth-0">
+                                                <i className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
+                                            </a>
 
-                                    {state.id === post.postedBy._id
-                                        ? <a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
-                                        : null
-                                    }
-                                </li>
-                            </ul>
+                                            {state.id === post.postedBy._id
+                                                ? <a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
+                                                : null
+                                            }
+                                        </li>
+                                    </ul>
 
-                            <div className="card-image">
-                                <img src={post.photo} alt="" />
-                                <a href="#" className="halfway-fab btn-floating white">
-                                    <i className="material-icons red-text text-darken-1" onClick={likeDislike(post._id)}>{post.likes.includes(state.id) ? "favorite" : "favorite_border"}</i>
-                                </a>
-                            </div>
-                            <div className="card-content">
-                                <div className="photo-reach row">
-                                    <div className="col s3 l2">
-                                        <i className="material-icons red-text left">favorite</i>
-                                        <span>{post.likes.length}</span>
+                                    <div className="card-image card-top">
+                                        <img src={post.photo} alt="" />
+                                        <a href="#" className="halfway-fab btn-floating white">
+                                            <i className="material-icons red-text text-darken-1" onClick={likeDislike(post._id)}>{post.likes.includes(state.id) ? "favorite" : "favorite_border"}</i>
+                                        </a>
                                     </div>
+                                    <div className="card-content">
+                                        <div className="photo-reach row">
+                                            <div className="col s3 l2">
+                                                <i className="material-icons red-text left">favorite</i>
+                                                <span>{post.likes.length}</span>
+                                            </div>
 `                                   <div className="col s3 l2">
-                                        <i className="material-icons green-text  left">comment</i>
-                                        <span>{post.comments.length}</span>
-                                    </div>
-                                    <div className="col s3 l2">
-                                        <i className="material-icons blue-text left">send</i>
-                                        <span>13</span>
-                                    </div>
-                                </div>
-                                <span className="card-title pink-text text-darken-2">{post.title}</span>
-                                <p>{post.body}</p>
-                                {post.comments.length > 0 ?
-                                    <div className="comment row">
-                                        <div className="col s11 offset-s1">
-                                            <ul className="collection comment-collection">
-                                                <li className="collection-item avatar">
-                                                    <img src={post.comments[0].postedBy.photo} alt="" className="circle" />
-                                                    <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
-                                                    <p>{post.comments[0].text}</p>
-                                                    {
-                                                        post.comments[0].postedBy._id === state.id
-                                                            ? <p className="blue-text" style={{ fontStyle: 'italic', cursor: 'pointer' }}>delete</p>
-                                                            : null
-                                                    }
+                                                <i className="material-icons green-text  left">comment</i>
+                                                <span>{post.comments.length}</span>
+                                            </div>
+                                            <div className="col s3 l2">
+                                                <i className="material-icons blue-text left">send</i>
+                                                <span>13</span>
+                                            </div>
+                                        </div>
+                                        <span className="card-title pink-text text-darken-2">{post.title}</span>
+                                        <p>{post.body}</p>
+                                        {post.comments.length > 0 ?
+                                            <div className="comment row">
+                                                <div className="col s11 offset-s1">
+                                                    <ul className="collection comment-collection">
+                                                        <li className="collection-item avatar">
+                                                            <img src={post.comments[0].postedBy.photo} alt="" className="circle" />
+                                                            <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{post.comments[0].postedBy.username}</span>
+                                                            <p>{post.comments[0].text}</p>
+                                                            {
+                                                                post.comments[0].postedBy._id === state.id
+                                                                    ? <p className="blue-text" style={{ fontStyle: 'italic', cursor: 'pointer' }}>delete</p>
+                                                                    : null
+                                                            }
 
-                                                </li>
-                                            </ul>
-                                            <p className="modal-trigger grey-text text-darken-1" style={{ cursor: 'pointer' }} data-target="modal-post" onClick={() => setOpenedPost(post._id)}>view more...</p>
+                                                        </li>
+                                                    </ul>
+                                                    <p className="modal-trigger grey-text text-darken-1" style={{ cursor: 'pointer' }} data-target="modal-post" onClick={() => setOpenedPost(post._id)}>view more...</p>
+                                                </div>
+
+                                            </div>
+                                            : null
+                                        }
+                                        <div className="user-comment row">
+                                            <div className="col s1">
+                                                <img src={state.photo} alt="" className="responsive-img circle p-comment" />
+                                            </div>
+                                            <div className="col s10 offset-s1">
+                                                <form onSubmit={makeComment(post._id)}>
+                                                    <div className="input-field">
+                                                        <input type="text" name="comment" placeholder="add a comment" onChange={e => setComment(e.target.value)} />
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
 
                                     </div>
-                                    : null
-                                }
-                                <div className="user-comment row">
-                                    <div className="col s1">
-                                        <img src={state.photo} alt="" className="responsive-img circle p-comment" />
-                                    </div>
-                                    <div className="col s10 offset-s1">
-                                        <form onSubmit={makeComment(post._id)}>
-                                            <div className="input-field">
-                                                <input type="text" name="comment" placeholder="add a comment" onChange={e => setComment(e.target.value)} />
-                                            </div>
-                                        </form>
-                                    </div>
+
                                 </div>
 
                             </div>
-
-                        </div>
-
-                    </div>
-                ))
+                        ))
+                        : <div className="flow-text center">No post found!</div>
                     :
-                    <div className="center" style={{margin: '100px auto' }}>
+
+                    <div className="center" style={{ margin: '100px auto' }}>
                         <div className="preloader-wrapper small active">
                             <div className="spinner-layer spinner-blue">
                                 <div className="circle-clipper left">

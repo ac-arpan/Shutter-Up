@@ -222,7 +222,7 @@ function Home() {
                                 </li>
                             </ul>
 
-                            <div className="card-image">
+                            <div className="card-image card-top">
                                 <img src={post.photo} alt="" />
                                 <a href="#" className="halfway-fab btn-floating white">
                                     <i className="material-icons red-text text-darken-1" onClick={likeDislike(post._id)}>{post.likes.includes(state.id) ? "favorite" : "favorite_border"}</i>

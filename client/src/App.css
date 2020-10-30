@@ -142,6 +142,10 @@ nav {
 .home .comment {
   margin-bottom: 5px !important;
 }
+.home .card-top {
+  margin-top: 5px !important;
+}
+
 /* Signup Modal */
 /* label focus color */
 .input-field input:focus + label {
