@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 function SubscribedPosts() {
 
     const [posts, setPosts] = useState([])
-    console.log(posts)
+    // console.log(posts)
     const [comment, setComment] = useState('')
     const [openedPost, setOpenedPost] = useState('')
     const { state } = useContext(userContext)
@@ -145,6 +145,62 @@ function SubscribedPosts() {
             })
     }
 
+    const bookmark = postId => e => {
+        e.preventDefault()
+
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        const postBody = JSON.stringify({})
+
+        if (e.target.textContent.split('_').length === 2) {
+
+            document.getElementById(`${postId}`).querySelector('#bookmark').classList.add('disabled')
+            document.getElementById(`${postId}`).querySelector('#bookmark').classList.add('pulse')
+            // liking a post
+            e.target.textContent = e.target.textContent.split('_')[0]
+            axios.put(`/api/posts/bookmark/${postId}`, postBody, config)
+                .then(res => {
+                    const updatedPosts = posts.map(post => {
+                        console.log(res.data)
+                        if (post._id === res.data._id) {
+                            return res.data
+                        } else {
+                            return post
+                        }
+                    })
+
+                    setPosts(updatedPosts)
+                    document.getElementById(`${postId}`).querySelector('#bookmark').classList.remove('disabled')
+                    document.getElementById(`${postId}`).querySelector('#bookmark').classList.remove('pulse')
+                })
+                .catch(err => console.log(err))
+        } else {
+
+            document.getElementById(`${postId}`).querySelector('#bookmark').classList.add('disabled')
+            // unliking a post
+            e.target.textContent = e.target.textContent + '_border'
+            axios.put(`/api/posts/removeBookmark/${postId}`, postBody, config)
+                .then(res => {
+                    const updatedPosts = posts.map(post => {
+                        if (post._id === res.data._id) {
+                            return res.data
+                        } else {
+                            return post
+                        }
+                    })
+
+                    setPosts(updatedPosts)
+                    document.getElementById(`${postId}`).querySelector('#bookmark').classList.remove('disabled')
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
     return (
         <div className="home">
             <div className="row">
@@ -157,7 +213,11 @@ function SubscribedPosts() {
                                     <img src={post.postedBy.photo} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
                                     <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color:'black' }}>{post.postedBy.username}</span></Link>
                                     <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
-                                    <a href="#!" className="right"><i className="material-icons pink-text text-darken-1">bookmark_border</i></a>
+
+                                    <a href="#!" id="bookmark" className="btn-floating pink lighten-5 right z-depth-0">
+                                        <i  className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
+                                    </a>
+
                                     {state.id === post.postedBy._id
                                         ? <a href="#!" className="secondary-content"><i className="material-icons red-text" onClick={deletePost(post._id)}>delete</i></a>
                                         : null
