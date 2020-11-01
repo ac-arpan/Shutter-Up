@@ -15,6 +15,7 @@ import SubscribedPosts from './components/SubscribedPosts';
 import UserPostList from './components/UserPostList';
 import ResetPassword from './components/ResetPassword';
 import ChangePassword from './components/ChangePassword';
+import ChatList from './components/ChatList';
 
 
 
@@ -59,6 +60,7 @@ const Routing = () => {
       <Route path="/create" exact component={CreatePost} />
       <Route path="/resetPassword" exact component={ResetPassword} />
       <Route path="/resetPassword/:token" component={ChangePassword} />
+      <Route path="/direct" component={ChatList} />
     </Switch>
   )
 }

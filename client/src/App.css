@@ -197,3 +197,8 @@ color: rgb(255, 27, 65) !important;
   }
 }
 
+/* ChatList */
+.chat-list {
+  margin: 0 !important;
+  padding: 0 !important;
+}
