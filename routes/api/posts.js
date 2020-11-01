@@ -13,6 +13,7 @@ const User = require('../../models/User')
 // @access Private
 router.get('/', auth, (req, res) => {
     Post.find({})
+        .sort({ createdAt: -1 })
         .populate('postedBy','_id name username photo')
         .populate('comments.postedBy','_id name username photo')
         .then(posts => res.json({ posts }))
@@ -24,6 +25,7 @@ router.get('/', auth, (req, res) => {
 // @access Private
 router.get('/followingPost', auth, (req, res) => {
     Post.find({ postedBy : { $in: req.user.followings }})
+        .sort({ createdAt: -1 })
         .populate('postedBy','_id name username photo')
         .populate('comments.postedBy','_id name username photo')
         .then(posts => res.json({ posts }))
