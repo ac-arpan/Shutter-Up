@@ -202,3 +202,8 @@ color: rgb(255, 27, 65) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Search */
+#modal-search {
+  min-height: 50vh !important;
+}

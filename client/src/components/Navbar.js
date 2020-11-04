@@ -6,6 +6,7 @@ import logo from './shutterUp.svg'
 import Login from './Login'
 import Signup from './Signup'
 import M from "materialize-css";
+import { SearchModal } from './SearchModal'
 
 function Navbar() {
 
@@ -27,10 +28,14 @@ function Navbar() {
     const navLinks = () => {
         if (state) {
             return [
+                <li key="7" className="modal-trigger" data-target="modal-search"><Link to="#" className="sidenav-close btn pink z-depth-1">
+                    <span>search</span>
+                    <i className="material-icons left white-text">search</i>
+                </Link></li>,
                 <li key="1"><Link to="/" className="sidenav-close pink-text">Home</Link></li>,
                 <li key="2"><Link to="/profile" className="sidenav-close pink-text">Profile</Link></li>,
                 <li key="6"><Link to="/subscribedPosts" className="sidenav-close pink-text">Favorites</Link></li>,
-                <li key="5"><Link to="/profile" className="sidenav-close btn pink z-depth-1" onClick={logout}>
+                <li key="5"><Link to="/index" className="sidenav-close btn pink z-depth-1" onClick={logout}>
                     <span>Log Out</span>
                     <i className="material-icons right white-text">lock_outline</i>
                 </Link></li>,
@@ -51,6 +56,7 @@ function Navbar() {
 
         let sidenav = document.querySelectorAll('.sidenav')
         M.Sidenav.init(sidenav)
+
 
     }, [])
     return (
@@ -77,6 +83,8 @@ function Navbar() {
             <Login />
             {/* signup Modal */}
             <Signup />
+            {/* search Modal */}
+            <SearchModal />
 
 
             {
