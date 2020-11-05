@@ -186,6 +186,19 @@ router.get('/bookmarked', auth, (req, res) => {
         .catch(err => console.log(err))
 })
 
+
+// @route  GET /api/users/search
+// @desc   Search Users
+// @access Private
+router.get('/search', auth, (req, res) => {
+    User.find({})
+        .select('name photo')
+        .then(users => res.json(users))
+        .catch(err => console.log(err))
+})
+
+
+
 // @route  GET /api/users/:userId
 // @desc   Get a single user
 // @access Private

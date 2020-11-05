@@ -26,20 +26,25 @@ const Routing = () => {
 
   // console.log(history)
 
-  useEffect( () => {
+  useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    if(user) {
+    if (user) {
       dispatch({
         type: 'USER',
         payload: user
       })
-      if(history.location.pathname === '/index') {
+      if (history.location.pathname === '/index') {
         history.push('/')
       }
+      else if (history.location.pathname === `/profile/${user["id"]}`) {
+        console.log(history.location.pathname)
+        history.push('/profile')
+      }
       history.push(history.location.pathname)
+      console.log(history.location.pathname)
     } else {
-      if(history.location.pathname.startsWith('/resetPassword')) {
+      if (history.location.pathname.startsWith('/resetPassword')) {
         // console.log(history.location.pathname)
       }
       else {
@@ -56,7 +61,7 @@ const Routing = () => {
       <Route path="/userPostList/:userId" component={UserPostList} />
       <Route path="/index" exact component={Index} />
       <Route path="/profile" exact component={Profile} />
-      <Route path="/profile/:userId"  component={UserProfile} />
+      <Route path="/profile/:userId" component={UserProfile} />
       <Route path="/create" exact component={CreatePost} />
       <Route path="/resetPassword" exact component={ResetPassword} />
       <Route path="/resetPassword/:token" component={ChangePassword} />
