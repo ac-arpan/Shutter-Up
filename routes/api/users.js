@@ -197,7 +197,16 @@ router.get('/search', auth, (req, res) => {
         .catch(err => console.log(err))
 })
 
+// @route  GET /api/users/chatList
+// @desc   Chatlist of the user
+// @access Private
+router.get('/chatList', auth, (req, res) => {
+    User.find({ $or: [{ _id: { $in: req.user.followings }}, {_id: { $in: req.user.followers }}]})
+        .select('name username photo')
+        .then(users => res.json(users))
+        .catch(err => console.log(err))
 
+})
 
 // @route  GET /api/users/:userId
 // @desc   Get a single user

@@ -1,11 +1,30 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
 import axios from 'axios'
 import logo from './shutterUp.svg'
+import { Link } from 'react-router-dom'
 
 const ChatList = () => {
 
     const { state } = useContext(userContext)
+    const [users, setUsers] = useState(null)
+
+    useEffect(() => {
+
+        // the configurations
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+        axios.get('/api/users/chatList', config)
+            .then(res => {
+                console.log(res.data)
+                setUsers(res.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     return (
         <div className="container">
@@ -22,30 +41,69 @@ const ChatList = () => {
                     <div className="card">
                         <div className="card-content chat-list">
                             <ul className="collection">
-                                <li className="collection-item avatar">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                    <span className="title pink-text">Anindita Mitra</span>
-                                    <p>Babu Khaiso!</p>
-                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
-                                </li>
-                                <li className="collection-item avatar">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                    <span className="title pink-text">Arnab Bhattacharyya</span>
-                                    <p>Omago! Turuuuu Lab!</p>
-                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
-                                </li>
-                                <li className="collection-item avatar">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                    <span className="title pink-text">Rayan Chakrobarty</span>
-                                    <p>Shutiye lal kore debo!</p>
-                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
-                                </li>
-                                <li className="collection-item avatar">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" />
-                                    <span className="title pink-text">Rittwick Bhabak</span>
-                                    <p>Hi there! How are how?</p>
-                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
-                                </li>
+                                {
+                                    users ?
+                                        users.length > 0 ?
+                                            users.map(user => (
+                                                <li key={user._id} className="collection-item avatar">
+                                                    <img src={user.photo} alt="userImage" className="circle" />
+                                                    <span className="title pink-text">{user.name}</span>
+                                                    <p style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'grey' }}>{user.username}</p>
+                                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
+                                                </li>
+                                            ))
+                                            : <div className="center pink-text text-lighten-2" style={{ margin: '100px auto' }}>
+                                                <div>
+                                                    <i className="large material-icons center pink-text text-lighten-2">mood_bad</i>
+                                                </div>
+                                                <p className="flow-text" style={{ marginBottom: '10px' }}>Oops! No one to talk? How about making some connection!</p>
+                                                <Link to="/"><div className="btn pink">Trending</div></Link>
+                                            </div>
+                                        :
+                                        <div className="center" style={{ margin: '100px auto' }}>
+                                            <div className="preloader-wrapper small active">
+                                                <div className="spinner-layer spinner-blue">
+                                                    <div className="circle-clipper left">
+                                                        <div className="circle"></div>
+                                                    </div><div className="gap-patch">
+                                                        <div className="circle"></div>
+                                                    </div><div className="circle-clipper right">
+                                                        <div className="circle"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="spinner-layer spinner-red">
+                                                    <div className="circle-clipper left">
+                                                        <div className="circle"></div>
+                                                    </div><div className="gap-patch">
+                                                        <div className="circle"></div>
+                                                    </div><div className="circle-clipper right">
+                                                        <div className="circle"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="spinner-layer spinner-yellow">
+                                                    <div className="circle-clipper left">
+                                                        <div className="circle"></div>
+                                                    </div><div className="gap-patch">
+                                                        <div className="circle"></div>
+                                                    </div><div className="circle-clipper right">
+                                                        <div className="circle"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="spinner-layer spinner-green">
+                                                    <div className="circle-clipper left">
+                                                        <div className="circle"></div>
+                                                    </div><div className="gap-patch">
+                                                        <div className="circle"></div>
+                                                    </div><div className="circle-clipper right">
+                                                        <div className="circle"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                }
                             </ul>
                         </div>
                     </div>

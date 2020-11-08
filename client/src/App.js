@@ -38,11 +38,11 @@ const Routing = () => {
         history.push('/')
       }
       else if (history.location.pathname === `/profile/${user["id"]}`) {
-        console.log(history.location.pathname)
+        // console.log(history.location.pathname)
         history.push('/profile')
       }
       history.push(history.location.pathname)
-      console.log(history.location.pathname)
+      // console.log(history.location.pathname)
     } else {
       if (history.location.pathname.startsWith('/resetPassword')) {
         // console.log(history.location.pathname)
