@@ -29,16 +29,17 @@ function Navbar() {
         if (state) {
             return [
                 <li key="7" className="modal-trigger" data-target="modal-search"><Link to="#" className="sidenav-close btn pink z-depth-1">
-                    <span>search</span>
-                    <i className="material-icons left white-text">search</i>
+                    <span className="hide-on-large-only">Search</span>
+                    <i className="left material-icons white-text">search</i>
                 </Link></li>,
                 <li key="1"><Link to="/" className="sidenav-close pink-text">Home</Link></li>,
                 <li key="2"><Link to="/profile" className="sidenav-close pink-text">Profile</Link></li>,
                 <li key="6"><Link to="/subscribedPosts" className="sidenav-close pink-text">Favorites</Link></li>,
+                <li key="8"><Link to="/direct" className="sidenav-close pink-text">Direct</Link></li>,
                 <li key="5"><Link to="/index" className="sidenav-close btn pink z-depth-1" onClick={logout}>
                     <span>Log Out</span>
                     <i className="material-icons right white-text">lock_outline</i>
-                </Link></li>,
+                </Link></li>
             ]
         } else {
             return [
@@ -50,8 +51,10 @@ function Navbar() {
     }
 
     useEffect(() => {
+
+
         //  initialize all the Materialize things!
-        let modals = document.querySelectorAll('.authModal');
+        let modals = document.querySelectorAll('.authModal')
         M.Modal.init(modals);
 
         let sidenav = document.querySelectorAll('.sidenav')
@@ -59,6 +62,7 @@ function Navbar() {
 
 
     }, [])
+
     return (
         <>
             <nav className="nav-wrapper white z-depth-0">
@@ -77,7 +81,6 @@ function Navbar() {
             <ul className="sidenav" id="mobile-links">
                 {navLinks()}
             </ul>
-
 
             {/* login Modal */}
             <Login />

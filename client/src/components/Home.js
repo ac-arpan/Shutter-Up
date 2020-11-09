@@ -208,11 +208,11 @@ function Home() {
                             <ul className="collection">
                                 <li className="collection-item avatar">
                                     <img src={post.postedBy.photo} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
-                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color:'black' }}>{post.postedBy.username}</span></Link>
+                                    <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'black' }}>{post.postedBy.username}</span></Link>
                                     <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
 
                                     <a href="#!" id="bookmark" className="btn-floating pink lighten-5 right z-depth-0">
-                                        <i  className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
+                                        <i className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
                                     </a>
 
                                     {state.id === post.postedBy._id
@@ -287,7 +287,7 @@ function Home() {
                     </div>
                 ))
                     :
-                    <div className="center" style={{margin: '100px auto' }}>
+                    <div className="center" style={{ margin: '100px auto' }}>
                         <div className="preloader-wrapper small active">
                             <div className="spinner-layer spinner-blue">
                                 <div className="circle-clipper left">
