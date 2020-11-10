@@ -207,3 +207,26 @@ color: rgb(255, 27, 65) !important;
 #modal-search {
   min-height: 50vh !important;
 }
+
+/* Chat Page */
+.chat-container .card-content, .chat-container .card-action {
+  padding: 0 !important;
+}
+.chat-container .card-action {
+  margin: 0 !important;
+  border-top: none !important;
+}
+.chat-container .card-action .collection {
+  border-bottom: none !important;
+}
+.chat-container .chat-box {
+  max-height: 300px !important;
+  overflow-y: scroll !important;
+}
+.chat-box .row {
+  width: 100%;
+}
+.chat {
+  border-radius: 4px ;
+  max-width:  40% !important;
+}
