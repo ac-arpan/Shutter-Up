@@ -145,6 +145,9 @@ nav {
 .home .card-top {
   margin-top: 5px !important;
 }
+.bookmark {
+  margin-top: 25px !important;
+}
 
 /* Signup Modal */
 /* label focus color */

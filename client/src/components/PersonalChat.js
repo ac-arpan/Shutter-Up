@@ -100,20 +100,3 @@ const PersonalChat = () => {
 
 export default PersonalChat
 
-
-// <div className="col s1">
-//                                 <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="responsive-img circle" />
-//                             </div>
-//                             <div className="col s9">
-//                                 <form >
-//                                     <div className="input-field">
-//                                         <input type="text" name="comment" placeholder="Type Something..." />
-//                                     </div>
-//                                 </form>
-//                             </div>
-//                             <div className="col s2">
-//                                 <button className="btn pink darken-1 z-depth-1" id="login-btn">
-//                                     <span>send</span>
-//                                     <i className="material-icons right">send</i>
-//                                 </button>
-//                             </div>
