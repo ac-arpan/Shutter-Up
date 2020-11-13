@@ -91,9 +91,9 @@ function Navbar() {
 
 
             {
-                state ?
+                state  ?
                     <div className="fixed-action-btn">
-                        <Link to="/create" className="btn-floating btn-large pink darken-1">
+                        <Link to="/create" id="create-btn" className="btn-floating btn-large pink darken-1">
                             <i className="material-icons">add</i>
                         </Link>
                     </div> : null

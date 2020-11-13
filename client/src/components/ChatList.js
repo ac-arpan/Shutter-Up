@@ -45,11 +45,11 @@ const ChatList = () => {
                                     users ?
                                         users.length > 0 ?
                                             users.map(user => (
-                                                <Link to={`/direct/${user._id}`}><li key={user._id} className="collection-item avatar">
+                                                <Link key={user._id} to={`/direct/${user._id}`}><li  className="collection-item avatar">
                                                     <img src={user.photo} alt="userImage" className="circle" />
                                                     <span className="title pink-text">{user.name}</span>
                                                     <p style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'grey' }}>{user.username}</p>
-                                                    <a href="#!" className="secondary-content"><i className="material-icons pink-text">grade</i></a>
+                                                    <div  className="secondary-content"><i className="material-icons pink-text">grade</i></div>
                                                 </li></Link>
                                             ))
                                             : <div className="center pink-text text-lighten-2" style={{ margin: '100px auto' }}>
