@@ -20,7 +20,7 @@ const ChatList = () => {
         }
         axios.get('/api/users/chatList', config)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setUsers(res.data)
             })
             .catch(err => console.log(err))

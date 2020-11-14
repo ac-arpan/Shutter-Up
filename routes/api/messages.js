@@ -17,7 +17,7 @@ router.post('/', auth, (req, res) => {
 
     message.save()
         .then(result => {
-            res.json({ msg : "Message Saved" })
+            res.json({ msg: "Message Saved" })
         })
         .catch(err => console.log(err))
 })
@@ -30,6 +30,32 @@ router.get('/', auth, (req, res) => {
         .populate('sender', 'name username')
         .populate('reciever', 'name username')
         .then(messages => res.json(messages))
+        .catch(err => console.log(err))
+})
+
+// @route GET /api/messages/info/:userId
+// @desc Get all the messages between the userId and current logged in User
+// @access private
+router.get('/info/:userId', auth, (req, res) => {
+    User.find({ _id: req.params.userId } )
+        .select('name username photo')
+        .then(reciever => res.json(reciever))
+        .catch(err => console.log(err))
+})
+
+// @route GET /api/messages/:userId
+// @desc Get all the messages between the userId and current logged in User
+// @access private
+router.get('/:userId', auth, (req, res) => {
+    Messages.find({ $or: [ 
+        { $and: [{ sender: req.user._id }, { reciever: req.params.userId }] },
+        { $and: [{ reciever: req.user._id }, { sender: req.params.userId }] }
+    ]})
+        .populate('sender', 'name username photo')
+        .populate('reciever', 'name username photo')
+        .then(messages => {
+            res.json(messages)
+        })
         .catch(err => console.log(err))
 })
 

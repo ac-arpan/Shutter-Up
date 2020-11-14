@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { userContext } from '../context/GlobalState'
 import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const PersonalChat = () => {
 
     const { chatId } = useParams()
+    const { state } = useContext(userContext)
 
-    useEffect( () => {
+    const [messages, setMessages] = useState(null)
+    const [reciever, setReciever] = useState(null)
+
+    useEffect(() => {
         const chatBox = document.getElementsByClassName('chat-box')[0]
         const chatBoxHeight = chatBox.scrollHeight
 
@@ -13,7 +19,44 @@ const PersonalChat = () => {
             top: chatBoxHeight
             // behavior: "smooth"
         })
-    })
+    }, [messages])
+
+    useEffect(() => {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+
+
+        axios.get(`/api/messages/${chatId}`, config)
+            .then(res => {
+                // console.log(res.data)
+                setMessages(res.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    useEffect(() => {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+
+
+        axios.get(`/api/messages/info/${chatId}`, config)
+            .then(res => {
+                setReciever(res.data[0])
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+
 
     return (
         <div className="container">
@@ -32,57 +75,50 @@ const PersonalChat = () => {
                         <div className="card-content">
                             <ul className="chat-head collection">
                                 <li className="collection-item avatar pink lighten-5">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
-                                    <Link to={`/profile/${chatId}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'black' }}>The all initial</span></Link>
-                                    <Link to={`/profile/${chatId}`}><p>John Doe</p></Link>
+                                    <img src={reciever ? reciever.photo : "https://image.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179865.jpg"} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
+                                    <Link to={`/profile/${chatId}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'black' }}>{reciever ? reciever.username : <p>...............</p>}</span></Link>
+                                    <Link to={`/profile/${chatId}`}><div>{reciever ? reciever.name : <p>..........</p>}</div></Link>
 
                                 </li>
                             </ul>
                             <div className="chat-box">
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat">
-                                        <p className="white-text">Message</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat right">
-                                        <p className="white-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, sequi.</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat  right">
-                                        <p className="white-text">Lorem ipsum dolor sit amet.</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat">
-                                        <p className="white-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptatem aut possimus iure architecto itaque quas voluptatum ratione inventore iste?</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat">
-                                        <p className="white-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, ratione.</p>
-                                    </div>
-                                </div>
-                                <div className="row" style={{margin: '0px', padding: '5px'}}>
-                                    <div className="col s12 pink chat right">
-                                        <p className="white-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt quod ullam debitis ut magni excepturi quibusdam in iusto sint consequatur. </p>
-                                    </div>
-                                </div>
-                                
+                                {
+                                    messages ?
+                                        messages.length > 0 ?
+                                            messages.map(message => {
+                                                if (message.reciever._id === state.id) {
+                                                    return (
+                                                        <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
+                                                            <div className="col s12 pink chat">
+                                                            <p className="white-text">{message.message}</p>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                } else if(message.sender._id === state.id) {
+                                                    return (
+                                                        <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
+                                                            <div className="col s12 pink chat right">
+                                                                <p className="white-text">{message.message}</p>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                            }) : <div className="center">How about starting a chat ? </div>
+
+                                        : <div>Loading...</div>
+
+                                }
+
+
                             </div>
                         </div>
                         <div className="card-action row">
                             <ul className="collection">
                                 <li className="collection-item avatar">
-                                    <img src="https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
+                                    <img src={state ? state.photo : null} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
                                     <span className="title">
                                         <form>
-                                            <div className="input-field" style={{width: '80%'}}>
+                                            <div className="input-field" style={{ width: '80%' }}>
                                                 <input type="text" name="comment" placeholder="Type Something..." />
                                             </div>
                                         </form>
@@ -94,7 +130,8 @@ const PersonalChat = () => {
                     </div>
                 </div>
             </div>
-        </div>
+
+        </div >
     )
 }
 
