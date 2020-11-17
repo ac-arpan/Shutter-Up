@@ -1,43 +1,62 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { userContext } from '../context/GlobalState'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
+import M from 'materialize-css'
 
 const PersonalChat = () => {
 
     const { chatId } = useParams()
     const { state } = useContext(userContext)
+    const intervalRef = useRef()
 
     const [messages, setMessages] = useState(null)
     const [reciever, setReciever] = useState(null)
+    const [prev, setPrev] = useState([])
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
-        const chatBox = document.getElementsByClassName('chat-box')[0]
-        const chatBoxHeight = chatBox.scrollHeight
 
-        chatBox.scrollTo({
-            top: chatBoxHeight
-            // behavior: "smooth"
-        })
+        if (messages) {
+            if (prev.length !== messages.length) {
+                const chatBox = document.getElementsByClassName('chat-box')[0]
+                const chatBoxHeight = chatBox.scrollHeight
+
+                chatBox.scrollTo({
+                    top: chatBoxHeight
+                    // behavior: "smooth"
+                })
+            }
+        }
     }, [messages])
 
     useEffect(() => {
 
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+        const m = setInterval(() => {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
             }
+
+
+            axios.get(`/api/messages/${chatId}`, config)
+                .then(res => {
+                    // console.log(res.data)
+
+                    setMessages(res.data)
+                    setPrev(res.data)
+
+                })
+                .catch(err => console.log(err))
+
+        }, 1000)
+        return () => {
+            clearInterval(m)
         }
-
-
-        axios.get(`/api/messages/${chatId}`, config)
-            .then(res => {
-                // console.log(res.data)
-                setMessages(res.data)
-            })
-            .catch(err => console.log(err))
     }, [])
+
 
     useEffect(() => {
 
@@ -56,6 +75,42 @@ const PersonalChat = () => {
             .catch(err => console.log(err))
     }, [])
 
+    const saveMessage = e => {
+        e.preventDefault()
+
+        if (message.length === 0) {
+            M.toast({ html: 'Please add a message!', classes: '#e91e63 pink' })
+
+            document.querySelector('#send-btn').classList.remove('disabled')
+            document.querySelector('#send-btn').classList.remove('pulse')
+
+            return
+        }
+
+        document.querySelector('#send-btn').classList.add('disabled')
+        document.querySelector('#send-btn').classList.add('pulse')
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+
+        const postBody = JSON.stringify({ sender: state.id, reciever: reciever._id, message: message })
+
+        axios.post('/api/messages', postBody, config)
+            .then(response => {
+                document.querySelector('#send-btn').classList.remove('disabled')
+                document.querySelector('#send-btn').classList.remove('pulse')
+
+                setMessage('')
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
 
     return (
@@ -90,11 +145,11 @@ const PersonalChat = () => {
                                                     return (
                                                         <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
                                                             <div className="col s12 pink chat">
-                                                            <p className="white-text">{message.message}</p>
+                                                                <p className="white-text">{message.message}</p>
                                                             </div>
                                                         </div>
                                                     )
-                                                } else if(message.sender._id === state.id) {
+                                                } else if (message.sender._id === state.id) {
                                                     return (
                                                         <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
                                                             <div className="col s12 pink chat right">
@@ -117,13 +172,13 @@ const PersonalChat = () => {
                                 <li className="collection-item avatar">
                                     <img src={state ? state.photo : null} alt="" className="circle" style={{ border: '2px solid rgb(255, 27, 65)' }} />
                                     <span className="title">
-                                        <form>
+                                        <form onSubmit={saveMessage}>
                                             <div className="input-field" style={{ width: '80%' }}>
-                                                <input type="text" name="comment" placeholder="Type Something..." />
+                                                <input type="text" name="comment" placeholder="Type Something..." value={message} onChange={e => setMessage(e.target.value)} />
                                             </div>
                                         </form>
                                     </span>
-                                    <div href="#!" className="btn-floating secondary-content pink waves-effect waves-light"><i className="material-icons ">send</i></div>
+                                    <div id="send-btn" className="btn-floating secondary-content pink waves-effect waves-light"><i className="material-icons " onClick={saveMessage}>send</i></div>
                                 </li>
                             </ul>
                         </div>
