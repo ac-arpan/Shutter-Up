@@ -4,6 +4,7 @@ import axios from 'axios'
 import M from 'materialize-css'
 import SinglePost from './SinglePost'
 import { Link } from 'react-router-dom'
+import Moment from 'react-moment'
 
 function SubscribedPosts() {
 
@@ -201,6 +202,15 @@ function SubscribedPosts() {
         }
     }
 
+    const calendarStrings = {
+        lastDay : '[Yesterday at] LT',
+        sameDay : '[Today at] LT',
+        nextDay : '[Tomorrow at] LT',
+        lastWeek : '[last] dddd [at] LT',
+        nextWeek : 'dddd [at] LT',
+        sameElse : 'L'
+    }
+
     return (
         <div className="home">
             <div className="row">
@@ -216,7 +226,9 @@ function SubscribedPosts() {
                                             <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold', color: 'black' }}>{post.postedBy.username}</span></Link>
                                             <Link to={state.id === post.postedBy._id ? `/profile` : `/profile/${post.postedBy._id}`}><p>{post.postedBy.name}</p></Link>
 
-                                            <a href="#!" id="bookmark" className="btn-floating pink lighten-5 right z-depth-0">
+                                            <p className="pink-text text-darken-2"><Moment calendar={calendarStrings}>{post.createdAt}</Moment></p>
+
+                                            <a href="#!" id="bookmark" className="secondary-content btn-floating white right z-depth-0 bookmark">
                                                 <i className="material-icons pink-text text-darken-1" onClick={bookmark(post._id)}>{post.bookmarks.includes(state.id) ? "bookmark" : "bookmark_border"}</i>
                                             </a>
 
