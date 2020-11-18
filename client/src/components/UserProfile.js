@@ -121,7 +121,7 @@ function UserProfile() {
                                 }
                             </div>
                             <div className="col s4">
-                                <button className="btn pink waves-effect waves-light sp-btn">Message</button>
+                                <Link to={`/direct/${userInfo._id}`}><button className="btn pink waves-effect waves-light sp-btn">Message</button></Link>
                             </div>
                             <div className="col s4">
                                 {/* <a className="btn pink waves-effect waves-light sp-btn"
@@ -133,10 +133,8 @@ function UserProfile() {
                     </div>
                 </div>
                 : null}
-            <div className="edit">
-                <p className="flow-text center">Edit Profile</p>
-            </div>
-
+            
+            <div className="divider"></div>
             <div className="gallery">
                 <div className="row">
                     {userPosts &&
