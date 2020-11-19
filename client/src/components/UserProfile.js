@@ -3,6 +3,8 @@ import axios from 'axios'
 import { userContext } from '../context/GlobalState'
 import { useParams, Link } from 'react-router-dom'
 import M from 'materialize-css'
+import FollowerModal from './FollowerModal'
+import FollowingModal from './FollowingModal'
 
 function UserProfile() {
 
@@ -18,6 +20,11 @@ function UserProfile() {
 
         let tabs = document.querySelectorAll('.tabs')
         M.Tabs.init(tabs)
+
+        let connectionModal = document.getElementById('modal-connection')
+        let connectionModal2 = document.getElementById('modal-connection2')
+        M.Modal.init(connectionModal)
+        M.Modal.init(connectionModal2)
 
 
         const config = {
@@ -85,6 +92,7 @@ function UserProfile() {
 
 
     return (
+        <>
         <div className="container profile-page">
             { userInfo && userPosts ?
                 <div className="row profile">
@@ -101,11 +109,11 @@ function UserProfile() {
                                 <h4 style={{ color: 'black' }}>{userPosts.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Posts</p>
                             </div></Link>
-                            <div className="col s4">
+                            <div className={userInfo.followers.length > 0 ? "modal-trigger col s4" : "col s4"} data-target="modal-connection">
                                 <h4>{userInfo.followers.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Follower</p>
                             </div>
-                            <div className="col s4">
+                            <div className={userInfo.followings.length > 0 ? "modal-trigger col s4" : "col s4"} data-target="modal-connection2">
                                 <h4>{userInfo.followings.length}</h4>
                                 <p className="flow-text pink-text text-lighten-1">Following</p>
                             </div>
@@ -148,6 +156,12 @@ function UserProfile() {
             </div>
 
         </div>
+        
+        {/* The Connections Modal */}
+        <FollowerModal name = {userInfo ? userInfo.name : null} id = {userInfo ? userInfo._id : null}/>
+        <FollowingModal name = {userInfo ? userInfo.name : null} id = {userInfo ? userInfo._id : null} />
+
+        </>
     )
 }
 
