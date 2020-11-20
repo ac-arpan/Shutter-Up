@@ -59,7 +59,6 @@ function Profile() {
 
         axios.get('/api/users/bookmarked', config)
             .then(res => {
-                console.log(res.data)
                 setBookmarkedPost(res.data.bookmarkedPost)
             })
             .catch(err => console.log(err))

@@ -96,7 +96,7 @@ function UserProfile() {
         <div className="container profile-page">
             { userInfo && userPosts ?
                 <div className="row profile">
-                    <div className="col s12 l3 profile-img">
+                    <div className="col s12 l3 profile-img center">
                         <img src={userInfo.photo} alt="" className="responsive-img circle p-img" />
                     </div>
                     <div className="col s12 l6 offset-l2 profile-desc">

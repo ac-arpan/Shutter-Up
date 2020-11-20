@@ -167,6 +167,18 @@ router.put('/unfollow/:userId', auth, (req, res) => {
         })
 })
 
+
+// @route  GET /api/users/followers/:userId
+// @desc   Get the followers of a User
+// @access Private
+router.get('/followers/:userId', auth, (req, res) => {
+    User.findById(req.params.userId)
+        .populate('followers', 'name username photo')
+        .then(user => res.json(user.followers))
+        .catch(err => console.log(err))
+})
+
+
 // @route  GET /api/users/bookmarked
 // @desc   Get the bookmarked post of the Logged in User
 // @access Private

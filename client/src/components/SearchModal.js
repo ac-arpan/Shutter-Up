@@ -93,7 +93,7 @@ export const SearchModal = () => {
                 <div className="center" >
                     <img src={logo} className="auth-logo" />
                 </div>
-                <h4 className="pink-text text-darken-1 center"> || Find your friends ||</h4>
+                <h5 className="pink-text text-darken-1 center"> || Find your friends ||</h5>
                 <br />
 
                 <div className="row">
