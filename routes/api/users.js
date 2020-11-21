@@ -178,6 +178,16 @@ router.get('/followers/:userId', auth, (req, res) => {
         .catch(err => console.log(err))
 })
 
+// @route  GET /api/users/followings/:userId
+// @desc   Get the followings of a User (The people whom user is following)
+// @access Private
+router.get('/followings/:userId', auth, (req, res) => {
+    User.findById(req.params.userId)
+        .populate('followings', 'name username photo')
+        .then(user => res.json(user.followings))
+        .catch(err => console.log(err))
+})
+
 
 // @route  GET /api/users/bookmarked
 // @desc   Get the bookmarked post of the Logged in User

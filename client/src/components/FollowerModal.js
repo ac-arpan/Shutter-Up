@@ -44,8 +44,8 @@ const FollowerModal = ({ name, id }) => {
                         followers ? followers.map(follower => (
                             <li key={follower._id} className="collection-item avatar">
                                 <img src={follower.photo} alt="" className="circle" />
-                                <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><span className="title">{follower.name}</span></Link>
-                                <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><em><p className="black-text">{follower.username}</p></em></Link>
+                                <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><span className="title modal-close">{follower.name}</span></Link>
+                                <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><em><p className="black-text modal-close">{follower.username}</p></em></Link>
                                 <a href="!#" className="secondary-content hide-on-med-and-down">
                                     <i className="material-icons pink-text">add</i>
                                 </a>
