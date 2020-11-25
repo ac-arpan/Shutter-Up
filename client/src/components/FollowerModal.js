@@ -47,7 +47,15 @@ const FollowerModal = ({ name, id }) => {
                                 <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><span className="title modal-close">{follower.name}</span></Link>
                                 <Link to={state.id === follower._id ? `/profile` : `/profile/${follower._id}`}><em><p className="black-text modal-close">{follower.username}</p></em></Link>
                                 <a href="!#" className="secondary-content hide-on-med-and-down">
-                                    <i className="material-icons pink-text">add</i>
+                                    {
+                                        follower._id === state.id ?
+                                            <i className="material-icons pink-text">perm_identity</i>
+                                            :
+                                            follower.followers.includes(state.id) ?
+                                                <i id="unfollow-btn" className="material-icons pink-text">indeterminate_check_box</i>
+                                                :
+                                                <i id="follow-btn" className="material-icons pink-text">add_box</i>
+                                    }
                                 </a>
                             </li>
                         ))

@@ -173,7 +173,7 @@ router.put('/unfollow/:userId', auth, (req, res) => {
 // @access Private
 router.get('/followers/:userId', auth, (req, res) => {
     User.findById(req.params.userId)
-        .populate('followers', 'name username photo')
+        .populate('followers', 'name username photo followers')
         .then(user => res.json(user.followers))
         .catch(err => console.log(err))
 })
@@ -183,7 +183,7 @@ router.get('/followers/:userId', auth, (req, res) => {
 // @access Private
 router.get('/followings/:userId', auth, (req, res) => {
     User.findById(req.params.userId)
-        .populate('followings', 'name username photo')
+        .populate('followings', 'name username photo followers')
         .then(user => res.json(user.followings))
         .catch(err => console.log(err))
 })
