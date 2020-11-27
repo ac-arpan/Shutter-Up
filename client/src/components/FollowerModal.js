@@ -52,9 +52,9 @@ const FollowerModal = ({ name, id }) => {
                                             <i className="material-icons pink-text">perm_identity</i>
                                             :
                                             follower.followers.includes(state.id) ?
-                                                <i id="unfollow-btn" className="material-icons pink-text">indeterminate_check_box</i>
+                                                <p className="pink-text">Followed</p>
                                                 :
-                                                <i id="follow-btn" className="material-icons pink-text">add_box</i>
+                                                <p className="pink-text">Not followed</p>
                                     }
                                 </a>
                             </li>
