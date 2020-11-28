@@ -17,6 +17,7 @@ import ResetPassword from './components/ResetPassword';
 import ChangePassword from './components/ChangePassword';
 import ChatList from './components/ChatList';
 import PersonalChat from './components/PersonalChat';
+import UserInfoEdit from './components/UserInfoEdit';
 
 
 
@@ -59,6 +60,7 @@ const Routing = () => {
       <Route path="/userPostList/:userId" component={UserPostList} />
       <Route path="/index" exact component={Index} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/edit" exact component={UserInfoEdit} />
       <Route path="/profile/:userId" component={UserProfile} />
       <Route path="/create" exact component={CreatePost} />
       <Route path="/resetPassword" exact component={ResetPassword} />

@@ -93,6 +93,16 @@ router.put('/changePic', auth, (req, res) => {
 })
 
 
+// @route  GET /api/users/edit/:userId
+// @desc   Get the userInfo of the logged in user
+// @access Private
+router.get('/edit/:userId', auth, (req, res) => {
+    User.findById(req.params.userId)
+        .select('name username photo')
+        .then(user => res.json(user))
+        .catch(err => console.log(err))
+})
+
 
 // @route  PUT /api/users/follow/:userId
 // @desc   Follow a User

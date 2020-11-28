@@ -166,9 +166,9 @@ function Profile() {
                     </div>
                 </div>
                 : null}
-            <div className="edit">
+            <Link to="/profile/edit"><div className="edit">
                 <p className="flow-text center">Edit Profile</p>
-            </div>
+            </div></Link>
 
             <div className="row">
                 <div className="col s12">
