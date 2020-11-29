@@ -60,8 +60,8 @@ router.post('/', (req, res) => {
                                     subject: 'SIGN-UP Success',
                                     html: '<h1>Welcome to Shutter-Up</h1>'
                                 })
-                                .then(() => console.log('mail-sent'))
-                                .catch(err => console.log(err))
+                                    .then(() => console.log('mail-sent'))
+                                    .catch(err => console.log(err))
                             })
                             .catch(err => console.log(err))
                     })
@@ -101,6 +101,28 @@ router.get('/edit/:userId', auth, (req, res) => {
         .select('name username photo')
         .then(user => res.json(user))
         .catch(err => console.log(err))
+})
+
+// @route  PUT /api/users/edit/:userId
+// @desc   Update the userInfo of the logged in user
+// @access Private
+router.put('/edit/:userId', auth, (req, res) => {
+    User.findByIdAndUpdate(req.params.userId, {
+        $set: {
+            name: req.body.name,
+            username: req.body.username
+        },
+    },
+    { new: true })
+        .select('-password')
+        .exec((err, updatedUser) => {
+            if (err) {
+                return res.status(400).json({ msg: err })
+            } else {
+                return res.json({ updatedUser })
+            }
+        })
+
 })
 
 
@@ -233,7 +255,7 @@ router.get('/search', auth, (req, res) => {
 // @desc   Chatlist of the user
 // @access Private
 router.get('/chatList', auth, (req, res) => {
-    User.find({ $or: [{ _id: { $in: req.user.followings }}, {_id: { $in: req.user.followers }}]})
+    User.find({ $or: [{ _id: { $in: req.user.followings } }, { _id: { $in: req.user.followers } }] })
         .select('name username photo')
         .then(users => res.json(users))
         .catch(err => console.log(err))

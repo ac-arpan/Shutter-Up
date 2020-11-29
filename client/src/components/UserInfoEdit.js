@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+import M from 'materialize-css'
 
 const UserInfoEdit = () => {
 
     const { state, dispatch } = useContext(userContext)
+    const history = useHistory()
 
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
@@ -21,7 +24,6 @@ const UserInfoEdit = () => {
 
             axios.get(`/api/users/edit/${state.id}`, config)
                 .then(res => {
-                    console.log(res.data)
                     setName(res.data.name)
                     setUsername(res.data.username)
                 })
@@ -31,6 +33,47 @@ const UserInfoEdit = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
+
+        document.querySelector('#edit-btn').classList.add('disabled')
+        document.querySelector('#edit-btn').classList.add('pulse')
+
+        if (name.length === 0 || username.length === 0) {
+            M.toast({ html: 'some field is blank', classes: '#e91e63 pink' })
+            document.querySelector('#edit-btn').classList.remove('disabled')
+            document.querySelector('#edit-btn').classList.remove('pulse')
+        } else {
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+
+            const postBody = JSON.stringify({ name: name, username: username })
+
+            axios.put(`/api/users/edit/${state.id}`, postBody, config)
+                .then(res => {
+
+                    dispatch({
+                        type: 'UPDATE_USER',
+                        payload: res.data.updatedUser
+                    })
+
+                    let user = JSON.parse(localStorage.getItem('user'))
+                    user.name = res.data.updatedUser.name
+                    user.username = res.data.updatedUser.username
+                    localStorage.setItem('user', JSON.stringify(user))
+
+                    history.push('/profile')
+                })
+                .catch(err => {
+                    console.log(err)
+                    document.querySelector('#edit-btn').classList.remove('disabled')
+                    document.querySelector('#edit-btn').classList.remove('pulse')
+                })
+
+        }
 
     }
 
