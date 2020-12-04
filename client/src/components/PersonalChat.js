@@ -144,7 +144,7 @@ const PersonalChat = () => {
                                                 if (message.reciever._id === state.id) {
                                                     return (
                                                         <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
-                                                            <div className="col s12 pink chat">
+                                                            <div className="col s12 chat you">
                                                                 <p className="white-text">{message.message}</p>
                                                             </div>
                                                         </div>
@@ -152,7 +152,7 @@ const PersonalChat = () => {
                                                 } else if (message.sender._id === state.id) {
                                                     return (
                                                         <div key={message._id} className="row" style={{ margin: '0px', padding: '5px' }}>
-                                                            <div className="col s12 pink chat right">
+                                                            <div className="col s12 chat right me">
                                                                 <p className="white-text">{message.message}</p>
                                                             </div>
                                                         </div>

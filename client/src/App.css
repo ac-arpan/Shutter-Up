@@ -230,6 +230,14 @@ color: rgb(255, 27, 65) !important;
   width: 100%;
 }
 .chat {
-  border-radius: 4px ;
-  max-width:  40% !important;
+  border-radius: 10px ;
+  max-width:  55% !important;
+}
+.you {
+  /* background-image: linear-gradient(120deg, #e631fa 10%, #f5576c 100%); */
+  background-image: linear-gradient(to left, #f43b47 0%, #453a94 100%);
+}
+.me {
+  /* background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%); */
+  background-image: linear-gradient(to right, #0250c5 0%, #d43f8d 100%);
 }
