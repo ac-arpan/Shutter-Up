@@ -93,6 +93,7 @@ export const SearchModal = () => {
                 <div className="center" >
                     <img src={logo} className="auth-logo" />
                 </div>
+                <h6 className="grey-text text-lighten-2 center">Please refresh once if suggestions don't appear!</h6>
                 <h5 className="pink-text text-darken-1 center"> || Find your friends ||</h5>
                 <br />
 

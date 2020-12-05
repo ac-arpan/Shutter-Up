@@ -40,11 +40,16 @@ function CreatePost() {
             })
             .catch(err => {
                 M.toast({ html: err.response.data.msg, classes: 'e91e63 pink' })
+                document.querySelector('#create-btn-one').classList.remove('disabled')
+                document.querySelector('#create-btn-one').classList.remove('pulse')
             })
     }
 
 
     const postImage = e => {
+
+        document.querySelector('#create-btn-one').classList.add('disabled')
+        document.querySelector('#create-btn-one').classList.add('pulse')
         
         e.preventDefault()
         // Posting the image to the cloudinary
@@ -60,7 +65,10 @@ function CreatePost() {
                 console.log(res.data)
                 setUrl(res.data["secure_url"])
             })
-            .catch(err => console.log(err))
+            .catch(err => {console.log(err)
+                document.querySelector('#create-btn-one').classList.remove('disabled')
+                document.querySelector('#create-btn-one').classList.remove('pulse')
+            })
 
 
     }
@@ -89,7 +97,7 @@ function CreatePost() {
                             <input className="file-path validate" type="text" />
                         </div>
                     </div>
-                    <button className="btn waves-effect waves-light pink darken-1" onClick={postImage}>Post</button>
+                    <button id="create-btn-one" className="btn waves-effect waves-light pink darken-1" onClick={postImage}>Post</button>
                 </form>
             </div>
         </div>

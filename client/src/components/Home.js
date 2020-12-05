@@ -246,7 +246,7 @@ function Home() {
                                         <i className="material-icons red-text left">favorite</i>
                                         <span>{post.likes.length}</span>
                                     </div>
-`                                   <div className="col s3 l2">
+                                   <div className="modal-trigger col s3 l2" onClick={() => setOpenedPost(post._id)} style={{cursor:"pointer"}} data-target="modal-post">
                                         <i className="material-icons green-text  left">comment</i>
                                         <span>{post.comments.length}</span>
                                     </div>
