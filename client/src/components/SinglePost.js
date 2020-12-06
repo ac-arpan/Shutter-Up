@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { userContext } from '../context/GlobalState'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function SinglePost({ postId }) {
 
@@ -72,7 +73,7 @@ function SinglePost({ postId }) {
                                                     {post.comments.map(comment => (
                                                         <li key={comment._id} className="collection-item avatar">
                                                             <img src={comment.postedBy.photo} alt="" className="circle" />
-                                                            <span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{comment.postedBy.username}</span>
+                                                            <Link className = "modal-close" to={state.id === comment.postedBy._id ? `/profile` : `/profile/${comment.postedBy._id}`}><span className="title" style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{comment.postedBy.username}</span></Link>
                                                             <p>{comment.text}</p>
                                                             {
                                                                 comment.postedBy._id === state.id

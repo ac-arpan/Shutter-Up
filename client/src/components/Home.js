@@ -273,7 +273,7 @@ function Home() {
 
                                                 </li>
                                             </ul>
-                                            <p className="modal-trigger grey-text text-darken-1" style={{ cursor: 'pointer' }} data-target="modal-post" onClick={() => setOpenedPost(post._id)}>view more...</p>
+                                            <p className="modal-trigger grey-text text-darken-1" style={{ cursor: 'pointer' }} data-target="modal-post" onClick={() => setOpenedPost(post._id)}>{`view all ${post.comments.length} comments..`}</p>
                                         </div>
 
                                     </div>
