@@ -34,21 +34,5 @@ ___
 
 ___
 
-#### To run this project on your local machine you need to take the following steps
-
-* Install node.js in your machine
-* Open the cmd/powershell/bash in the root directory and run the following commands in order
-    * ```bash
-        npm install
-
-        cd client
-
-        npm install
-
-        cd ..
-
-        npm run dev
-
-    ```
 
 
