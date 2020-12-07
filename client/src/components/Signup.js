@@ -32,14 +32,14 @@ function Signup() {
 
     const resetForm = () => {
         let inputs = document.getElementById('signup-form').getElementsByTagName('input')
-        console.log(inputs)
+        // console.log(inputs)
         inputs = Array.from(inputs)
-        console.log(inputs)
+        // console.log(inputs)
 
         inputs.pop()
-        console.log(inputs)
+        // console.log(inputs)
         inputs.pop()
-        console.log(inputs)
+        // console.log(inputs)
         inputs.forEach(input => {
             input.nextSibling.classList.remove('active')
         });
@@ -55,7 +55,7 @@ function Signup() {
 
         const photoUrl = url ? url : "https://images.unsplash.com/photo-1525971996320-268f0402052f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
         // Request Body
-        const body = JSON.stringify({ name, username, email, password, photo: photoUrl })
+        const body = JSON.stringify({ name : name.trim(), username : username.trim(), email : email.trim(), password : password.trim(), photo: photoUrl })
 
         axios.post('/api/users', body, config)
             .then(res => {

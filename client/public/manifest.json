@@ -1,7 +1,12 @@
 {
   "short_name": "Shutter-UP",
-  "name": "Share Your Photos",
+  "name": "A Social Media Application",
   "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "1024x1024",
+      "type": "image/svg"
+    },
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",

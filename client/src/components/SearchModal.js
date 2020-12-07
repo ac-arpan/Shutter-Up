@@ -23,8 +23,9 @@ export const SearchModal = () => {
         let searchModal = document.querySelector('#modal-search')
         const name = searchModal.querySelector('#autocomplete-input').value
 
+        // console.log(name)
         users.forEach(user => {
-            if(user.name === name) {
+            if(user.name.trim() === name.trim()) {
                 setSearchUserId(user._id)
             }
         })
@@ -52,7 +53,7 @@ export const SearchModal = () => {
         const data = {}
         if (users) {
             users.forEach(user => {
-                data[`${user.name}`] = `${user.photo}`
+                data[`${user.name.trim()}`] = `${user.photo}`
             })
             // console.log(data)
             setSearchData(data)
