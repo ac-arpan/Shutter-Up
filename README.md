@@ -5,6 +5,8 @@ ___
 
 ### You can have a look at this website here [Shutter Up](https://shutter--up.herokuapp.com/)
 
+![Shutter UP Login Page](front.png)
+
 ___
 
 ## Project Specifications
@@ -44,7 +46,7 @@ ___
         npm install
 
         cd ..
-        
+
         npm run dev
 
     ```
