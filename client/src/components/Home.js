@@ -5,6 +5,7 @@ import M from 'materialize-css'
 import SinglePost from './SinglePost'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
+import LikeModal from './LikeModal'
 
 function Home() {
 
@@ -17,7 +18,11 @@ function Home() {
 
     useEffect(() => {
         let postModal = document.getElementById('modal-post')
+        let likeModal = document.getElementById('modal-like')
         M.Modal.init(postModal, {
+            onCloseEnd: () => setOpenedPost('')
+        })
+        M.Modal.init(likeModal, {
             onCloseEnd: () => setOpenedPost('')
         })
         const config = {
@@ -242,7 +247,7 @@ function Home() {
                             </div>
                             <div className="card-content">
                                 <div className="photo-reach row">
-                                    <div className="col s3 l2">
+                                    <div className="modal-trigger col s3 l2" onClick={() => setOpenedPost(post._id)} style={{cursor:"pointer"}} data-target="modal-like">
                                         <i className="material-icons red-text left">favorite</i>
                                         <span>{post.likes.length}</span>
                                     </div>
@@ -351,6 +356,8 @@ function Home() {
 
             {/* The Single Post Modal */}
             <SinglePost postId={openedPost} />
+
+            <LikeModal postId={openedPost} />
         </div>
     )
 }

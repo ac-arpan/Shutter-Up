@@ -222,6 +222,17 @@ router.delete('/delete/:postId', auth, (req, res) => {
         })
 })
 
+
+// @route  GET /api/posts/postLikes/:postId
+// @desc   Get a single Posts Likes
+// @access Private
+router.get('/postLikes/:postId', auth, (req, res) => {
+    Post.findById(req.params.postId)
+        .populate('likes','_id name username photo')
+        .then(post => res.json({ post }))
+        .catch(err => console.log(err))
+})
+
 // @route  GET /api/posts/:postId
 // @desc   Get a single Posts
 // @access Private
